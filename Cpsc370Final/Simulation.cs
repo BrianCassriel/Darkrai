@@ -23,9 +23,14 @@ public class Simulation
             firework.ManageFirework();
         }
     }
-
+    
     private Firework GetFirework(int FireworkIndex)
     {
         return Fireworks[FireworkIndex];
+    }
+    
+    private List<Firework> GetFireworks()
+    {
+        return Fireworks;
     }
 }
