@@ -1,12 +1,21 @@
-namespace Cpsc370Final.Tests;
+using System;
+using System.IO;
+using Xunit;
 
-public class Fireworks_Tests
+namespace Cpsc370Final.Tests
 {
-    [Theory]
-    [InlineData("Exploded!")]
-    public void Explode_PrintsTrue(String expectedResult)
-    {
-        Assert.Equal(expectedResult);
+    public class Fireworks_Tests {
+        [Fact]
+        public void FireworkPosition_ShouldBeCorrectOnCreation()
+        {
+            var position = new Position(10, 10);
+            var firework = new Firework(position);
+
+            var expectedX = 10;
+            var expectedY = 10;
+
+            Assert.Equal(expectedX, firework.FireworkPosition.x);
+            Assert.Equal(expectedY, firework.FireworkPosition.y);
+        }
     }
-    
 }
