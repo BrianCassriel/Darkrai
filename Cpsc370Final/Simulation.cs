@@ -11,6 +11,8 @@ public class Simulation
 
     private void RemoveFirework(int FireworkIndex)
     {
+        if (Fireworks[FireworkIndex] == null) 
+            return;
         Fireworks.RemoveAt(FireworkIndex);
     }
 
@@ -21,9 +23,14 @@ public class Simulation
             firework.ManageFirework();
         }
     }
-
+    
     private Firework GetFirework(int FireworkIndex)
     {
         return Fireworks[FireworkIndex];
+    }
+    
+    private List<Firework> GetFireworks()
+    {
+        return Fireworks;
     }
 }
