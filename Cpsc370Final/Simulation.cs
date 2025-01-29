@@ -11,6 +11,8 @@ public class Simulation
 
     private void RemoveFirework(int FireworkIndex)
     {
+        if (Fireworks[FireworkIndex] == null) 
+            return;
         Fireworks.RemoveAt(FireworkIndex);
     }
 
