@@ -1,6 +1,6 @@
 namespace Cpsc370Final.Tests;
 
-public class UnitTest1
+public class RendererTest
 {
     [Fact]
     public void Test1()
