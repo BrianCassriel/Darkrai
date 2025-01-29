@@ -9,6 +9,9 @@ class Program
         
         // you can delete this if/when you like
         ShowArguments(args);
+        
+        Firework firework = new Firework();
+        firework.Explode();
     }
 
     // this is just an example of how to get the command
