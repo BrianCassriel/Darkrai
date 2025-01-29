@@ -1,42 +1,39 @@
-namespace Cpsc370Final;
-
-using System;
-// using Position;
-// using Velocity;
-// using Particle;
-
-public class Firework
+namespace Cpsc370Final
 {
-
-    public int centerX = (Console.WindowWidth) / 2;
-    public int centerY = (Console.WindowHeight) / 2;
-    
-    public bool isExploded = false;
-    //public List<Particle> particles;
-    public List<char> TestParticle { get; set; } = new List<char> { '*' };
-
-    String ManageFirework() // handles particle movement
+    using System;
+    public class Firework
     {
-        if (isExploded)
+        public Position FireworkPosition { get; set; }
+
+        public bool isExploded = false;
+        public List<char> TestParticle { get; set; } = new List<char> { '*' };
+
+        public Firework()
         {
-            return "Exploded!";
-            // get particle
-            
-            
-            // place particle at x position
-            
-            // place particle at y position
-            
+            FireworkPosition = new Position(Console.WindowWidth / 2, Console.WindowHeight / 2);
         }
 
-        return "Not Exploded!";
-    }
+        private void PlaceParticle()
+        {
+            if ((FireworkPosition.x <= Console.WindowWidth - 1) && (FireworkPosition.y <= Console.WindowHeight - 1))
+            {
+                Console.SetCursorPosition(FireworkPosition.x, FireworkPosition.y);
+                Console.Write(TestParticle[0]);
+            }
+        }
 
-    void Explode() // makes the firework explode
-    {
-        // if key is pressed
-        
-        isExploded = true;
-        ManageFirework();
+        public void ManageFirework()
+        {
+            if (isExploded)
+            {
+                PlaceParticle();
+            }
+        }
+
+        public void Explode()
+        {
+            isExploded = true;
+            ManageFirework();
+        }
     }
 }
