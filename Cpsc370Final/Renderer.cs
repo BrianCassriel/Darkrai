@@ -53,7 +53,14 @@ public static class Renderer
     {
         for (int i = 0; i < height; i++)
         {
-            writeLine(i, new string(screenBuffer[i, 0], width));
+            string line = "";
+            for (int j = 0; j < width; j++)
+            {
+                Pixel pixel = screenBuffer[i, j];
+                Console.ForegroundColor = getConsoleColor(pixel.color); // incorrect
+                line += pixel.symbol;
+            }
+            writeLine(i, line);
         }
     }
 
