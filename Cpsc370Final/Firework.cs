@@ -6,7 +6,13 @@ namespace Cpsc370Final
     {
         public Position FireworkPosition { get; set; }
         public bool isExploded = false;
-        public List<char> TestParticle { get; set; } = new List<char> { '*' };
+        public char centerParticleSymbol { get; } = '*';
+        public Color particleColor;
+
+        public Firework()
+        {
+            FireworkPosition = new Position(10,10);
+        }
 
         public Firework(Position position)
         {
@@ -18,7 +24,7 @@ namespace Cpsc370Final
             if ((FireworkPosition.x <= Console.WindowWidth - 1) && (FireworkPosition.y <= Console.WindowHeight - 1))
             {
                 Console.SetCursorPosition(FireworkPosition.x, FireworkPosition.y);
-                Console.Write(TestParticle[0]);
+                Console.Write(centerParticleSymbol);
             }
         }
 
