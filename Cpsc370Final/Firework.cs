@@ -1,16 +1,16 @@
 namespace Cpsc370Final
 {
     using System;
+    
     public class Firework
     {
         public Position FireworkPosition { get; set; }
-
         public bool isExploded = false;
         public List<char> TestParticle { get; set; } = new List<char> { '*' };
 
-        public Firework()
+        public Firework(Position position)
         {
-            FireworkPosition = new Position(Console.WindowWidth / 2, Console.WindowHeight / 2);
+            FireworkPosition = position;
         }
 
         private void PlaceParticle()

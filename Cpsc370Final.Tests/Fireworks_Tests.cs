@@ -6,15 +6,16 @@ namespace Cpsc370Final.Tests
 {
     public class Fireworks_Tests {
         [Fact]
-        public void FireworkPosition_ShouldBeAtCenterOnCreation()
+        public void FireworkPosition_ShouldBeCorrectOnCreation()
         {
-            var firework = new Firework();
+            var position = new Position(10, 10);
+            var firework = new Firework(position);
 
-            var centerX = Console.WindowWidth / 2;
-            var centerY = Console.WindowHeight / 2;
+            var expectedX = 10;
+            var expectedY = 10;
 
-            Assert.Equal(centerX, firework.FireworkPosition.x);
-            Assert.Equal(centerY, firework.FireworkPosition.y);
+            Assert.Equal(expectedX, firework.FireworkPosition.x);
+            Assert.Equal(expectedY, firework.FireworkPosition.y);
         }
     }
 }
