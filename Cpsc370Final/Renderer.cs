@@ -5,35 +5,37 @@ using ConsoleRenderer;
 public static class Renderer
 {
     private static int framerate = 1000 / 24;
-    public static bool shouldExit { get; private set; }
+    public static bool shouldExit = false;
     private static ConsoleCanvas canvas = new ConsoleCanvas();
 
-    public static void Start()
+    public static int GetFrameRate()
     {
-        shouldExit = false;
-        RenderLoop();
+        return framerate;
     }
     
-    private static void RenderLoop()
+    public static void OnFrame()
     {
-        while (!shouldExit)
-        {
             canvas.Clear();
             canvas.CreateBorder();
             Simulation.OnFrame();
             canvas.Render();
             Thread.Sleep(framerate);
-        }
-    }
-    
-    public static void Exit()
-    {
-        shouldExit = true;
     }
     
     public static void SetPixel(int x, int y, char symbol, Color color)
     {
         canvas.Set(x, y, symbol, GetConsoleColor(color));
+    }
+    
+    public static void ClearPixel(int x, int y)
+    {
+        canvas.Set(x, y, ' ', ConsoleColor.White);
+    }
+
+    public static void Exit()
+    {
+        canvas.Clear();
+        canvas.Render();
     }
     
     public static int GetWidth()
