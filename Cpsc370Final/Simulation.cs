@@ -36,6 +36,22 @@ public class Simulation
     {
         return Fireworks;
     }
+    
+    private Firework GetRandomFireworks()
+    {
+        Random rnd = new Random();
+        int x = rnd.Next(1, 3);
+        int y = rnd.Next(1, 3);
+        
+        Array values = Enum.GetValues(typeof(Color));
+        Random random = new Random();
+        Color randomColor = (Color)values.GetValue(random.Next(values.Length));
+        Position position = new Position(x, y);
+        
+        Firework firework = new Firework(randomColor, position);
+        
+        return firework;
+    }
 
     private void AddRandomFirework()
     {
@@ -57,7 +73,10 @@ public class Simulation
             isStopped = false;
             while (!isStopped)
             {
-                DrawFirework(GetFirework(0));
+                if (Fireworks.Count == 0)
+                    break;
+                
+                DrawFirework(GetRandomFirework(0));
                 Fireworks.RemoveAt(0);
                 Thread.Sleep(1000);
             }
