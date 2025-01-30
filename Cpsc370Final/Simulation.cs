@@ -44,7 +44,7 @@ public static class Simulation
         Random random = new Random();
         int threshold = random.Next(500, 3000);
         TimeSpan elapsedTime = DateTime.Now - LastFireworkDate;
-        if (elapsedTime.Milliseconds > threshold)
+        if (elapsedTime.TotalMilliseconds > threshold)
         {
             LaunchRandomFirework();
             LastFireworkDate = DateTime.Now;

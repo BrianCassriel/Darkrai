@@ -6,7 +6,16 @@ class Program
     
     static void Main(string[] args)
     {
+        HandleCommandLineArgs(args);
         MainLoop();
+    }
+
+    private static void HandleCommandLineArgs(string[] args)
+    {
+        if (args.Length > 0 && bool.TryParse(args[0], out bool parsedUseColor))
+        {
+            Renderer.isInColor = parsedUseColor;
+        }
     }
 
     static void MainLoop()

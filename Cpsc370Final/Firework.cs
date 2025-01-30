@@ -34,12 +34,12 @@ namespace Cpsc370Final
             }
         }
         
-        private void PlaceParticle(Position particlePos, char particleSymb)
+        private void PlaceParticle(Position particlePos, char particleSymbol)
         {
             if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth()  
                                    && particlePos.y >= 0 && particlePos.y < Renderer.GetHeight())
             {
-                Renderer.SetPixel(particlePos.x, particlePos.y, particleSymb, particleColor); // this is the line to actually use particles
+                Renderer.SetPixel(particlePos.x, particlePos.y, particleSymbol, particleColor); // this is the line to actually use particles
                 //Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
             }
         }
