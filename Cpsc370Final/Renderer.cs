@@ -6,10 +6,15 @@ public static class Renderer
 {
     private static int framerate = 1000 / 24;
     private static ConsoleCanvas canvas = new ConsoleCanvas(true, true);
-
+    
     public static int GetFrameRate()
     {
         return framerate;
+    }
+    
+    public static void SetCanvas(ConsoleCanvas canvas)
+    {
+        Renderer.canvas = canvas;
     }
     
     public static void OnFrame()

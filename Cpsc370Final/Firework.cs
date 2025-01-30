@@ -32,7 +32,7 @@ namespace Cpsc370Final
         
         private void PlaceParticle(Position particlePos, char particleSymb)
         {
-            if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth()  && particlePos.y >= 0 && particlePos.y < Renderer.GetHeight())
+            if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth() && particlePos.y >= 0 && particlePos.y < Renderer.GetHeight())
             {
                 Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
             }

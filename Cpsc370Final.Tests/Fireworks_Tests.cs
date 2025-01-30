@@ -9,7 +9,7 @@ namespace Cpsc370Final.Tests
         public void FireworkPosition_ShouldBeCorrectOnCreation()
         {
             var position = new Position(10, 10);
-            var firework = new Firework(position);
+            var firework = new Firework(position, Color.Red);
 
             var expectedX = 10;
             var expectedY = 10;
