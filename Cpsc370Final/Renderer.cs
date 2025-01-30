@@ -1,5 +1,7 @@
 namespace Cpsc370Final;
 
+using System.Threading;
+
 public static class Renderer
 {
     private static int width;
@@ -7,17 +9,24 @@ public static class Renderer
     private static Pixel[,] screenBuffer;
     private static int frameTime = 1000 / 24;
     private static bool shouldExit = false;
+    private static Thread renderThread;
 
     public static void Initialize()
     {
         SetupConsoleScreenSize();
         SetupScreenBuffer();
-
+        renderThread = new Thread(RenderLoop);
+        renderThread.Start();
+    }
+    
+    public static void RenderLoop()
+    {
         while (shouldExit == false)
         {
             Render();
             Thread.Sleep(frameTime);
         }
+        renderThread.Join();
         Console.Clear();
     }
     
