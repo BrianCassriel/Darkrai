@@ -2,26 +2,27 @@
 
 class Program
 {
+    private static Thread inputThread;
     static void Main(string[] args)
     {
-        if (args.Length < 1)
-            Console.WriteLine("Usage: Cpsc370Final <arguments>");
-        
-        // you can delete this if/when you like
-        ShowArguments(args);
-        
-        Position customPosition = new Position(30, 4);
-        Firework firework = new Firework(customPosition);
-        firework.Explode();
+        Renderer.Initialize();
+        Simulation.Start();
+        inputThread = new Thread(ReadInput);
+        inputThread.Start();
     }
 
-    // this is just an example of how to get the command
-    // line arguments so you can use them
-    private static void ShowArguments(string[] args)
+    private static void ReadInput()
     {
-        for (int i = 0; i < args.Length; i++)
+        while (true)
         {
-            Console.WriteLine("  Argument " + i +": " + args[i]);
+            var key = Console.ReadKey(true);
+            if (key.Key == ConsoleKey.Escape)
+            {
+                inputThread.Join();
+                Simulation.Stop();
+                Renderer.Exit();
+                break;
+            }
         }
     }
 }

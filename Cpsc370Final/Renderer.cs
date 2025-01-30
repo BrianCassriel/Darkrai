@@ -8,7 +8,7 @@ public static class Renderer
     private static int frameTime = 1000 / 24;
     private static bool shouldExit = false;
 
-    static Renderer()
+    public static void Initialize()
     {
         SetupConsoleScreenSize();
         SetupScreenBuffer();
@@ -18,6 +18,7 @@ public static class Renderer
             Render();
             Thread.Sleep(frameTime);
         }
+        Console.Clear();
     }
     
     public static void DrawFirework(Firework firework)
@@ -53,24 +54,23 @@ public static class Renderer
     {
         for (int i = 0; i < height; i++)
         {
-            string line = "";
             for (int j = 0; j < width; j++)
             {
-                Pixel pixel = screenBuffer[i, j];
-                Console.ForegroundColor = getConsoleColor(pixel.color); // incorrect
-                line += pixel.symbol;
+                WritePixel(screenBuffer[i, 0]);
             }
-            writeLine(i, line);
+            Console.WriteLine();
         }
     }
 
-    private static void writeLine(int lineNum, string line)
+    private static void WritePixel(Pixel pixel)
     {
-        Console.SetCursorPosition(0, lineNum);
-        Console.Write(line);
+        Console.SetCursorPosition(0, 0);
+        Console.ForegroundColor = GetConsoleColor(pixel.color);
+        Console.Write(pixel.symbol);
+        Console.ResetColor();
     }
     
-    private static ConsoleColor getConsoleColor(Color color)
+    private static ConsoleColor GetConsoleColor(Color color)
     {
         return color switch
         {
@@ -81,7 +81,8 @@ public static class Renderer
             Color.Blue => ConsoleColor.Blue,
             Color.Yellow => ConsoleColor.Yellow,
             Color.Cyan => ConsoleColor.Cyan,
-            Color.Magenta => ConsoleColor.Magenta
+            Color.Magenta => ConsoleColor.Magenta,
+            _ => ConsoleColor.White
         };
     }
 }
