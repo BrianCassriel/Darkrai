@@ -24,19 +24,17 @@ namespace Cpsc370Final
 
         private void PlaceCenterParticle()
         {
-            if ((FireworkPosition.x <= Console.WindowWidth - 1) && (FireworkPosition.y <= Console.WindowHeight - 1))
+            if ((FireworkPosition.x <= Renderer.GetWidth - 1) && (FireworkPosition.y <= Renderer.GetHeight - 1))
             {
-                Console.SetCursorPosition(FireworkPosition.x, FireworkPosition.y);
-                Console.Write(centerParticleSymbol);
+                Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
             }
         }
         
         private void PlaceParticle(Position particlePos, char particleSymb)
         {
-            if (particlePos.x >= 0 && particlePos.x < Console.WindowWidth && particlePos.y >= 0 && particlePos.y < Console.WindowHeight)
+            if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth  && particlePos.y >= 0 && particlePos.y < Renderer.GetHeight)
             {
-                Console.SetCursorPosition(particlePos.x, particlePos.y);
-                Console.Write(particleSymb);
+                Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
             }
         }
 
