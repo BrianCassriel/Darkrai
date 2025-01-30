@@ -14,7 +14,7 @@ namespace Cpsc370Final
             FireworkPosition = new Position(10,10);
         }
 
-        public Firework(Position position)
+        public Firework(Position position, Color color)
         {
             FireworkPosition = position;
         }
