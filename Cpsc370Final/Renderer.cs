@@ -20,7 +20,7 @@ public static class Renderer
         {
             canvas.Clear();
             canvas.CreateBorder();
-            // Simulation.updateAll();
+            Simulation.UpdateAll();
             canvas.Render();
             Thread.Sleep(framerate);
         }
@@ -29,6 +29,11 @@ public static class Renderer
     public static void Exit()
     {
         shouldExit = true;
+    }
+    
+    public static void SetPixel(int x, int y, char symbol, Color color)
+    {
+        canvas.Set(x, y, symbol, GetConsoleColor(color));
     }
     
     public static ConsoleColor GetConsoleColor(Color color)
