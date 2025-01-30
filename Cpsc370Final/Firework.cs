@@ -46,10 +46,31 @@ namespace Cpsc370Final
             }
         }
 
-        public void OnFrame()
+        public void Launch()
+        {
+            int startY = Renderer.GetHeight() - 1;
+    
+            int currentY = startY;
+            while (currentY > 5)
+            {
+                Renderer.Clear();
+                Renderer.SetPixel(Renderer.GetWidth() / 2, currentY, '|', particleColor);  
+                Thread.Sleep(80);  
+                
+                Renderer.SetPixel(Renderer.GetWidth() / 2, currentY + 1, ' ', particleColor);
+                currentY--;  
+            }
+
+            FireworkPosition.y = currentY; 
+            isExploded = true;
+            CreateParticles(); 
+        }
+
+        public void UpdateAll()
         {
             if (!isExploded)
             {
+                Launch();  
                 FireworkPosition.y -= 1; // Move up by 1
             
                 if (FireworkPosition.y <= Renderer.GetHeight() / 2)
@@ -60,10 +81,11 @@ namespace Cpsc370Final
             }
             else
             {
-                DrawFirework();
+                DrawFirework(); 
             }
         }
 
+        
         public void DrawFirework()
         {
             PlaceParticle(FireworkPosition, centerParticleSymbol);
