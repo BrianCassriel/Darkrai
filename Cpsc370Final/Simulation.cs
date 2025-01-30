@@ -8,6 +8,7 @@ public static class Simulation
     private static bool isStopped = true;
 
     private static void AddFirework(Firework NewFirework)
+
     {
         Fireworks.Add(NewFirework);
     }
