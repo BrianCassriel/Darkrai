@@ -51,9 +51,9 @@ namespace Cpsc370Final
             int startY = Renderer.GetHeight() - 1;
     
             int currentY = startY;
-            while (currentY > 5)
+            while (currentY > 5) 
             {
-                Renderer.Clear();
+                //Renderer.Clear();
                 Renderer.SetPixel(Renderer.GetWidth() / 2, currentY, '|', particleColor);  
                 Thread.Sleep(80);  
                 
@@ -66,7 +66,7 @@ namespace Cpsc370Final
             CreateParticles(); 
         }
 
-        public void UpdateAll()
+        public void OnFrame()
         {
             if (!isExploded)
             {
