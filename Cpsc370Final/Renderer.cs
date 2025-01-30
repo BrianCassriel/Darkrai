@@ -6,6 +6,7 @@ public static class Renderer
 {
     private static int framerate = 1000 / 24;
     private static IConsoleCanvas canvas = new ConsoleCanvasWrapper(new ConsoleCanvas(true, true));
+    public static bool isInColor = true;
     
     public static int GetFrameRate()
     {
@@ -28,7 +29,8 @@ public static class Renderer
     
     public static void SetPixel(int x, int y, char symbol, Color color)
     {
-        canvas.Set(x, y, symbol, GetConsoleColor(color));
+        Color symbolColor = isInColor ? color : Color.None;
+        canvas.Set(x, y, symbol, GetConsoleColor(symbolColor));
     }
     
     public static void ClearPixel(int x, int y)
