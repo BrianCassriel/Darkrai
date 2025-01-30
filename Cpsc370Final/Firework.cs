@@ -1,3 +1,5 @@
+using System.Drawing;
+
 using System.Xml.Schema;
 
 namespace Cpsc370Final
@@ -10,7 +12,7 @@ namespace Cpsc370Final
         public bool isExploded = false;
         public char centerParticleSymbol { get; } = '*';
         public List<Particle> particles = new List<Particle>();
-        public Color particleColor;
+        public Color particleColor { get; set; }
 
         public Firework()
         {
@@ -20,6 +22,7 @@ namespace Cpsc370Final
         public Firework(Position position, Color color)
         {
             FireworkPosition = position;
+            particleColor = color;
         }
 
         private void PlaceCenterParticle()
@@ -53,7 +56,7 @@ namespace Cpsc370Final
             int currentY = startY;
             while (currentY > 5)
             {
-                Renderer.Clear();
+                //Renderer.Clear();
                 Renderer.SetPixel(Renderer.GetWidth() / 2, currentY, '|', particleColor);  
                 Thread.Sleep(80);  
                 
@@ -66,7 +69,7 @@ namespace Cpsc370Final
             CreateParticles(); 
         }
 
-        public void UpdateAll()
+        public void OnFrame()
         {
             if (!isExploded)
             {
@@ -111,6 +114,7 @@ namespace Cpsc370Final
                 {
                     particlePosition = new Position(FireworkPosition.x + offsetX, FireworkPosition.y + offsetY),
                     particleSymbol = 'o',
+                    particleColor = this.particleColor
                 };
 
                 particles.Add(particle);

@@ -8,6 +8,7 @@ public class Particle
     public char particleSymbol { get; set; }
     
     public float lifetime { get; set; }
+    public Color particleColor { get; set; }
 
     public Particle()
     {
