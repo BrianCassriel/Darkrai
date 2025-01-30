@@ -64,7 +64,7 @@ public static class Renderer
         return canvas.Height;
     }
     
-    public static ConsoleColor GetConsoleColor(Color color)
+    private static ConsoleColor GetConsoleColor(Color color)
     {
         return color switch
         {
