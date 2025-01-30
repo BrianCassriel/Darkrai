@@ -40,15 +40,15 @@ public static class Simulation
 
     public static Firework GetRandomFirework()
     {
-        Random rnd = new Random();
-        int x = rnd.Next(0, Renderer.GetWidth());
-        int y = rnd.Next(0, Renderer.GetHeight());
+     //   Random rnd = new Random();
+     //   int x = rnd.Next(0, Renderer.GetWidth());
+     //   int y = rnd.Next(0, Renderer.GetHeight());
 
-        Array values = Enum.GetValues(typeof(Color));
-        Random random = new Random();
-        Color randomColor = (Color)values.GetValue(random.Next(values.Length));
+       // Array values = Enum.GetValues(typeof(Color));
+        //Random random = new Random();
+        //Color randomColor = (Color)values.GetValue(random.Next(values.Length));
 
-        return new Firework(new Position(x, y), randomColor);
+        return new Firework(GetRandomPosition(), GetRandomColor());
     }
 
     public static void Start()
@@ -62,6 +62,24 @@ public static class Simulation
                 Fireworks.Add(GetRandomFirework());
                 LastFireworkDate = DateTime.Now;
         }
+    }
+
+    private static Position GetRandomPosition()
+    {
+        Random rnd = new Random();
+        int x = rnd.Next(0, Renderer.GetWidth());
+        int y = rnd.Next(0, Renderer.GetHeight());
+        
+        return new Position(x, y);
+    }
+
+    private static Color GetRandomColor()
+    {
+        Array values = Enum.GetValues(typeof(Color));
+        Random random = new Random();
+        Color randomColor = (Color)values.GetValue(random.Next(values.Length));
+        
+        return randomColor;
     }
 
     public static void Stop()
