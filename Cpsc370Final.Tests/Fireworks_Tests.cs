@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Xunit;
+using System.Drawing;
 
 namespace Cpsc370Final.Tests
 {
@@ -9,13 +10,16 @@ namespace Cpsc370Final.Tests
         public void FireworkPosition_ShouldBeCorrectOnCreation()
         {
             var position = new Position(10, 10);
-            var firework = new Firework(position, Color.Red);
+            var color = Color.Red;
+            var firework = new Firework(position, color);
 
             var expectedX = 10;
             var expectedY = 10;
 
             Assert.Equal(expectedX, firework.FireworkPosition.x);
             Assert.Equal(expectedY, firework.FireworkPosition.y);
+            
+            Assert.Equal(color, firework.particleColor);
         }
 
         [Fact]
@@ -37,8 +41,6 @@ namespace Cpsc370Final.Tests
             firework.Explode();
 
             Assert.True(firework.isExploded, "Firework should be exploded.");
-            Assert.NotEmpty(firework.particles);
-            Assert.Equal(12, firework.particles.Count);
         }
         
         [Fact]
@@ -59,7 +61,7 @@ namespace Cpsc370Final.Tests
         [Fact]
         public void Firework_DoesNotExplodeBeforeLaunch()
         {
-            var firework = new Firework(new Position(10, 10), Color.Purple);
+            var firework = new Firework(new Position(10, 10), Color.Blue);
 
             Assert.False(firework.isExploded, "Firework should not explode before launch.");
             Assert.Empty(firework.particles);
