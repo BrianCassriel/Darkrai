@@ -32,7 +32,7 @@ namespace Cpsc370Final
         
         private void PlaceParticle(Position particlePos, char particleSymb)
         {
-            if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth  && particlePos.y >= 0 && particlePos.y < Renderer.GetHeight)
+            if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth()  && particlePos.y >= 0 && particlePos.y < Renderer.GetHeight())
             {
                 Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
             }
@@ -46,37 +46,39 @@ namespace Cpsc370Final
             }
         }
 
-        public void OnFrame()
-        {
-            if (!isExploded)
-            {
-                Launch();
-                FireworkPosition.y -= 1; // Move up by 1
-            
-                if (FireworkPosition.y <= 5)
-                {
-                    isExploded = true;
-                    CreateParticles();
-                }
-            }
-            else
-            {
-                DrawFirework();
-            }
-        }
-
         public void Launch()
         {
             int startY = Renderer.GetHeight() - 1;
     
-            for (int i = startY; i >= 0; i--)
+            int currentY = startY;
+            while (currentY > 5)
             {
-                Renderer.SetPixel(Renderer.GetWidth() / 2, i, '|', particleColor);
-                Thread.Sleep(50);
+                Renderer.Clear();
+                Renderer.SetPixel(Renderer.GetWidth() / 2, currentY, '|', particleColor);  
+                Thread.Sleep(80);  
+                
+                Renderer.SetPixel(Renderer.GetWidth() / 2, currentY + 1, ' ', particleColor);
+                currentY--;  
+            }
+
+            FireworkPosition.y = currentY; 
+            isExploded = true;
+            CreateParticles(); 
+        }
+
+        public void OnFrame()
+        {
+            if (!isExploded)
+            {
+                Launch();  
+            }
+            else
+            {
+                DrawFirework(); 
             }
         }
 
-
+        
         public void DrawFirework()
         {
             PlaceParticle(FireworkPosition, centerParticleSymbol);
