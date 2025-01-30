@@ -7,7 +7,7 @@ class Program
     static void Main(string[] args)
     {
         HandleCommandLineArgs(args);
-        MainLoop();
+        StartMainLoop();
     }
 
     private static void HandleCommandLineArgs(string[] args)
@@ -18,7 +18,7 @@ class Program
         }
     }
 
-    static void MainLoop()
+    static void StartMainLoop()
     {
         while (isRunning)
         {
