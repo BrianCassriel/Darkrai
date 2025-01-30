@@ -24,7 +24,7 @@ namespace Cpsc370Final
 
         private void PlaceCenterParticle()
         {
-            if ((FireworkPosition.x <= Renderer.GetWidth - 1) && (FireworkPosition.y <= Renderer.GetHeight - 1))
+            if ((FireworkPosition.x <= Renderer.GetWidth() - 1) && (FireworkPosition.y <= Renderer.GetHeight() - 1))
             {
                 Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
             }
@@ -32,7 +32,7 @@ namespace Cpsc370Final
         
         private void PlaceParticle(Position particlePos, char particleSymb)
         {
-            if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth  && particlePos.y >= 0 && particlePos.y < Renderer.GetHeight)
+            if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth()  && particlePos.y >= 0 && particlePos.y < Renderer.GetHeight())
             {
                 Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
             }
@@ -46,13 +46,34 @@ namespace Cpsc370Final
             }
         }
 
-        public void OnFrame()
+        public void Launch()
+        {
+            int startY = Renderer.GetHeight() - 1;
+    
+            int currentY = startY;
+            while (currentY > 5)
+            {
+                Renderer.Clear();
+                Renderer.SetPixel(Renderer.GetWidth() / 2, currentY, '|', particleColor);  
+                Thread.Sleep(80);  
+                
+                Renderer.SetPixel(Renderer.GetWidth() / 2, currentY + 1, ' ', particleColor);
+                currentY--;  
+            }
+
+            FireworkPosition.y = currentY; 
+            isExploded = true;
+            CreateParticles(); 
+        }
+
+        public void UpdateAll()
         {
             if (!isExploded)
             {
+                Launch();  
                 FireworkPosition.y -= 1; // Move up by 1
             
-                if (FireworkPosition.y <= 5)
+                if (FireworkPosition.y <= Renderer.GetHeight() / 2)
                 {
                     isExploded = true;
                     CreateParticles();
@@ -60,10 +81,11 @@ namespace Cpsc370Final
             }
             else
             {
-                DrawFirework();
+                DrawFirework(); 
             }
         }
 
+        
         public void DrawFirework()
         {
             PlaceParticle(FireworkPosition, centerParticleSymbol);

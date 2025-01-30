@@ -1,14 +1,12 @@
-using System.Runtime.CompilerServices;
-
 namespace Cpsc370Final;
 
 public static class Simulation
 {
     private static List<Firework> Fireworks = new List<Firework>();
-    private static bool isStopped = true;
+    private static bool isStopped = false;
     private static DateTime LastFireworkDate = DateTime.Now;
+    
     private static void AddFirework(Firework NewFirework)
-
     {
         Fireworks.Add(NewFirework);
     }
@@ -22,10 +20,13 @@ public static class Simulation
 
     public static void OnFrame()
     {
+        if (isStopped)
+            return;
         foreach (var firework in Fireworks)
         {
             firework.OnFrame();
         }
+        TryLaunchRandomFirework();
     }
 
     private static Firework GetFirework(int FireworkIndex)
@@ -38,11 +39,28 @@ public static class Simulation
         return Fireworks;
     }
 
-    public static Firework GetRandomFirework()
+    public static void TryLaunchRandomFirework()
     {
-     //   Random rnd = new Random();
-     //   int x = rnd.Next(0, Renderer.GetWidth());
-     //   int y = rnd.Next(0, Renderer.GetHeight());
+        Random random = new Random();
+        int threshold = random.Next(500, 3000);
+        TimeSpan elapsedTime = DateTime.Now - LastFireworkDate;
+        if (elapsedTime.Milliseconds > threshold)
+        {
+            LaunchRandomFirework();
+            LastFireworkDate = DateTime.Now;
+        }
+    }
+
+    public static void LaunchRandomFirework()
+    {
+        Fireworks.Add(GetRandomFirework());
+    }
+    
+    private static Firework GetRandomFirework()
+    {
+        Random rnd = new Random();
+        int x = rnd.Next(1, Renderer.GetWidth() - 1);
+        int y = rnd.Next(1, Renderer.GetHeight() - 1);
 
        // Array values = Enum.GetValues(typeof(Color));
         //Random random = new Random();
@@ -84,7 +102,6 @@ public static class Simulation
 
     public static void Stop()
     {
-        Fireworks.Clear();
         isStopped = true;
     }
 }
