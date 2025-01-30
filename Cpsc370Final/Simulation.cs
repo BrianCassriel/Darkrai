@@ -1,9 +1,12 @@
 namespace Cpsc370Final;
 
+using System;
+using System.Threading;
+
 public class Simulation
 {
     private List<Firework> Fireworks = new List<Firework>();
-
+    private bool isStopped = true;
     private void AddFirework(Firework NewFirework)
     {
         Fireworks.Add(NewFirework);
@@ -51,15 +54,20 @@ public class Simulation
         // adds random firework every couple seconds
         private void Start()
         {
-            
+            isStopped = false;
+            while (!isStopped)
+            {
+                DrawFirework(GetFirework(0));
+                Fireworks.RemoveAt(0);
+                Thread.Sleep(1000);
+            }
         }
 
 
-        private bool Stop()
+        private void Stop()
         {
             Fireworks.Clear();
-            return true;
+            isStopped = true;
         } 
-        // clears list of freworks and doestn add any more
 }
 
