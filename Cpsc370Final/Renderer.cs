@@ -36,6 +36,16 @@ public static class Renderer
         canvas.Set(x, y, symbol, GetConsoleColor(color));
     }
     
+    public static int GetWidth()
+    {
+        return canvas.Width;
+    }
+    
+    public static int GetHeight()
+    {
+        return canvas.Height;
+    }
+    
     public static ConsoleColor GetConsoleColor(Color color)
     {
         return color switch
