@@ -1,5 +1,4 @@
 
-using Xunit;
 using Moq;
 using ConsoleRenderer;
 
@@ -7,11 +6,11 @@ namespace Cpsc370Final.Tests
 {
     public class RendererTests
     {
-        private Mock<ConsoleCanvas> mockCanvas;
+        private Mock<IConsoleCanvas> mockCanvas;
         
         public RendererTests()
         {
-            mockCanvas = new Mock<ConsoleCanvas>();
+            mockCanvas = new Mock<IConsoleCanvas>();
             Renderer.SetCanvas(mockCanvas.Object);
         }
         
@@ -34,7 +33,7 @@ namespace Cpsc370Final.Tests
         public void ClearPixel_ClearsPixelCorrectly()
         {
             Renderer.ClearPixel(1, 1);
-            mockCanvas.Verify(c => c.Set(1, 1, ' ', ConsoleColor.White), Times.Once);
+            mockCanvas.Verify(c => c.Set(1, 1, ' ', ConsoleColor.White), Times.Once());
         }
 
         [Fact]
