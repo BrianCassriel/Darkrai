@@ -81,7 +81,7 @@ public static class Simulation
     {
         Random rnd = new Random();
         int x = rnd.Next(0, Renderer.GetWidth()-1);
-        int y = rnd.Next(0, Renderer.GetHeight()-1);
+        int y = rnd.Next(5, Renderer.GetHeight()-1);
         
         return new Position(x, y);
     }

@@ -93,7 +93,10 @@ namespace Cpsc370Final
                 if (FireworkPosition.y <= Renderer.GetHeight() / 2)
                 {
                     isExploded = true;
-                    CreateParticles();
+                    //CreateParticles();
+                    CreateParticles(12.0, 2,5, 'o');
+                    CreateParticles(12.0, 3,8, 'o');
+                    CreateParticles(12.0, 5,13, 'o');
                     UpdateCenterPosition();
                 }
             }
@@ -132,7 +135,7 @@ namespace Cpsc370Final
             {
                 double angle = 2 * Math.PI * i / particleDensity;
                 int offsetX = (int)Math.Round(Math.Cos(angle) * radius);
-                int offsetY = (int)Math.Round(Math.Sin(angle) * radius);
+                int offsetY = (int)Math.Round(Math.Sin(angle) * 2.5 * radius);
         
                 var particle = new Particle
                 {
@@ -143,6 +146,29 @@ namespace Cpsc370Final
                     particleSymbol = 'o'
                 };
 
+                particles.Add(particle);
+            }
+        }
+
+        private void CreateParticles(double density, int radiusX, int radiusY, char centerParticleSymbol)
+        {
+            double particleDensity = density;
+
+            for (int i = 0; i < particleDensity; i++)
+            {
+                double angle = 2 * Math.PI * i / particleDensity;
+                int offsetX = (int)Math.Round(Math.Cos(angle) * radiusX);
+                int offsetY = (int)Math.Round(Math.Sin(angle) * radiusY);
+        
+                var particle = new Particle
+                {
+                    particlePosition = new Position(
+                        FireworkPosition.x + offsetX,
+                        FireworkPosition.y + offsetY
+                    ),
+                    particleSymbol = centerParticleSymbol
+                };
+                
                 particles.Add(particle);
             }
         }
