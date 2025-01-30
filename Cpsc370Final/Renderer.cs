@@ -1,76 +1,42 @@
 namespace Cpsc370Final;
 
+using ConsoleRenderer;
+
 public static class Renderer
 {
-    private static int width;
-    private static int height;
-    private static Pixel[,] screenBuffer;
-    private static int frameTime = 1000 / 24;
-    private static bool shouldExit = false;
+    private static int framerate = 1000 / 24;
+    public static bool shouldExit { get; private set; }
+    private static ConsoleCanvas canvas = new ConsoleCanvas();
 
-    static Renderer()
+    public static void Start()
     {
-        SetupConsoleScreenSize();
-        SetupScreenBuffer();
-
-        while (shouldExit == false)
-        {
-            Render();
-            Thread.Sleep(frameTime);
-        }
+        shouldExit = false;
+        RenderLoop();
     }
     
-    public static void DrawFirework(Firework firework)
+    private static void RenderLoop()
     {
-        Position position = firework.FireworkPosition;
-        screenBuffer[position.x, position.y] = new Pixel(firework.centerParticleSymbol, firework.particleColor);
+        while (!shouldExit)
+        {
+            canvas.Clear();
+            canvas.CreateBorder();
+            Simulation.UpdateAll();
+            canvas.Render();
+            Thread.Sleep(framerate);
+        }
     }
     
     public static void Exit()
     {
         shouldExit = true;
     }
-
-    private static void SetupConsoleScreenSize()
+    
+    public static void SetPixel(int x, int y, char symbol, Color color)
     {
-        width = Console.WindowWidth;
-        height = Console.WindowHeight;
-    }
-
-    private static void SetupScreenBuffer()
-    {
-        screenBuffer = new Pixel[height, width];
-        for (int i = 0; i < height; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-                screenBuffer[i, j] = new Pixel(' ', Color.None);
-            }
-        }
-    }
-
-    private static void Render()
-    {
-        for (int i = 0; i < height; i++)
-        {
-            string line = "";
-            for (int j = 0; j < width; j++)
-            {
-                Pixel pixel = screenBuffer[i, j];
-                Console.ForegroundColor = getConsoleColor(pixel.color); // incorrect
-                line += pixel.symbol;
-            }
-            writeLine(i, line);
-        }
-    }
-
-    private static void writeLine(int lineNum, string line)
-    {
-        Console.SetCursorPosition(0, lineNum);
-        Console.Write(line);
+        canvas.Set(x, y, symbol, GetConsoleColor(color));
     }
     
-    private static ConsoleColor getConsoleColor(Color color)
+    public static ConsoleColor GetConsoleColor(Color color)
     {
         return color switch
         {
@@ -81,7 +47,8 @@ public static class Renderer
             Color.Blue => ConsoleColor.Blue,
             Color.Yellow => ConsoleColor.Yellow,
             Color.Cyan => ConsoleColor.Cyan,
-            Color.Magenta => ConsoleColor.Magenta
+            Color.Magenta => ConsoleColor.Magenta,
+            _ => ConsoleColor.White
         };
     }
 }
