@@ -24,7 +24,7 @@ public static class Simulation
     {
         foreach (var firework in Fireworks)
         {
-            firework.ManageFirework();
+            firework.OnFrame();
         }
     }
 
