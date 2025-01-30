@@ -10,6 +10,7 @@ namespace Cpsc370Final
     {
         public Position FireworkPosition { get; set; }
         public bool isExploded = false;
+        private static DateTime BirthDate = DateTime.Now;
         public char centerParticleSymbol { get; } = '*';
         public List<Particle> particles = new List<Particle>();
         public Color particleColor { get; set; }
@@ -92,6 +93,12 @@ namespace Cpsc370Final
                 if (FireworkPosition.y <= Renderer.GetHeight() / 2)
                 {
                     isExploded = true;
+
+                    //CreateParticles();
+                    CreateParticles(12.0, 2,5, 'o');
+                    CreateParticles(12.0, 3,8, 'o');
+                    CreateParticles(12.0, 5,13, 'o');
+
                     UpdateCenterPosition();
                     CreateParticles();
                 }
@@ -101,6 +108,8 @@ namespace Cpsc370Final
                 DrawFirework();
                 Thread.Sleep(50);
             }
+
+            IsDead();
         }
         
         public void DrawFirework()
@@ -126,6 +135,7 @@ namespace Cpsc370Final
             for (int i = 0; i < particleDensity; i++)
             {
                 double angle = 2 * Math.PI * i / particleDensity;
+
                 int offsetX = (int)Math.Round(Math.Cos(angle) * 3 * radius);
                 int offsetY = (int)Math.Round(Math.Sin(angle) * radius);
         
@@ -142,11 +152,45 @@ namespace Cpsc370Final
             }
         }
 
+        private void CreateParticles(double density, int radiusX, int radiusY, char centerParticleSymbol)
+        {
+            double particleDensity = density;
+
+            for (int i = 0; i < particleDensity; i++)
+            {
+                double angle = 2 * Math.PI * i / particleDensity;
+                int offsetX = (int)Math.Round(Math.Cos(angle) * radiusX);
+                int offsetY = (int)Math.Round(Math.Sin(angle) * radiusY);
+        
+                var particle = new Particle
+                {
+                    particlePosition = new Position(
+                        FireworkPosition.x + offsetX,
+                        FireworkPosition.y + offsetY
+                    ),
+                    particleSymbol = centerParticleSymbol
+                };
+                
+                particles.Add(particle);
+            }
+        }
+
 
         public void Explode()
         {
             isExploded = true;
             ManageFirework();
+        }
+
+        public bool IsDead()
+        {
+            Random random = new Random();
+            int Lifespan = random.Next(500, 2000);
+            TimeSpan Age = DateTime.Now - BirthDate;
+            if (Age.Milliseconds > Lifespan)
+                return true;
+
+            return false;
         }
     }
 }
