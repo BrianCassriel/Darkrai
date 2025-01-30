@@ -5,8 +5,7 @@ using ConsoleRenderer;
 public static class Renderer
 {
     private static int framerate = 1000 / 24;
-    public static bool shouldExit = false;
-    private static ConsoleCanvas canvas = new ConsoleCanvas();
+    private static ConsoleCanvas canvas = new ConsoleCanvas(true, true);
 
     public static int GetFrameRate()
     {
@@ -32,10 +31,27 @@ public static class Renderer
         canvas.Set(x, y, ' ', ConsoleColor.White);
     }
 
+    public static void SetPixels(List<Pixel> pixels)
+    {
+        foreach (Pixel pixel in pixels)
+        {
+            SetPixel(pixel.position.x, pixel.position.y, pixel.symbol, pixel.color);
+        }
+    }
+    
+    public static void ClearPixels(List<Pixel> pixels)
+    {
+        foreach (Pixel pixel in pixels)
+        {
+            ClearPixel(pixel.position.x, pixel.position.y);
+        }
+    }
+
     public static void Exit()
     {
         canvas.Clear();
         canvas.Render();
+        Console.Clear();
     }
     
     public static int GetWidth()
