@@ -1,17 +1,10 @@
-using System.Drawing;
-
 namespace Cpsc370Final;
-
-using Simulation;
-using Firework;
-using Color;
-using Pixel;
 
 public static class Renderer
 {
     private static int width;
     private static int height;
-    private static char[,] screenBuffer;
+    private static Pixel[,] screenBuffer;
     private static int frameTime = 1000 / 24;
     private static bool shouldExit = false;
 
@@ -26,17 +19,13 @@ public static class Renderer
             Thread.Sleep(frameTime);
         }
     }
-
-    public static void Draw(Simulation simulation)
+    
+    public static void DrawFirework(Firework firework)
     {
-        Firework[] fireworks = Simulation.getFireworks();
-        for (Firework firework : fireworks)
-        {
-            Position position = firework.getPosition();
-            screenBuffer[position.x, position.y] = new Pixel(firework.getSymbol(), firework.getColor());
-        }
+        Position position = firework.FireworkPosition;
+        screenBuffer[position.x, position.y] = new Pixel(firework.centerParticleSymbol, firework.particleColor);
     }
-
+    
     public static void Exit()
     {
         shouldExit = true;
@@ -50,12 +39,12 @@ public static class Renderer
 
     private static void SetupScreenBuffer()
     {
-        screenBuffer = new char[height, width];
+        screenBuffer = new Pixel[height, width];
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
             {
-                screenBuffer[i, j] = ' ';
+                screenBuffer[i, j] = new Pixel(' ', Color.None);
             }
         }
     }
@@ -64,7 +53,14 @@ public static class Renderer
     {
         for (int i = 0; i < height; i++)
         {
-            writeLine(i, new string(screenBuffer[i, 0], width));
+            string line = "";
+            for (int j = 0; j < width; j++)
+            {
+                Pixel pixel = screenBuffer[i, j];
+                Console.ForegroundColor = getConsoleColor(pixel.color); // incorrect
+                line += pixel.symbol;
+            }
+            writeLine(i, line);
         }
     }
 
@@ -72,5 +68,20 @@ public static class Renderer
     {
         Console.SetCursorPosition(0, lineNum);
         Console.Write(line);
+    }
+    
+    private static ConsoleColor getConsoleColor(Color color)
+    {
+        return color switch
+        {
+            Color.None => ConsoleColor.White,
+            Color.White => ConsoleColor.White,
+            Color.Red => ConsoleColor.Red,
+            Color.Green => ConsoleColor.Green,
+            Color.Blue => ConsoleColor.Blue,
+            Color.Yellow => ConsoleColor.Yellow,
+            Color.Cyan => ConsoleColor.Cyan,
+            Color.Magenta => ConsoleColor.Magenta
+        };
     }
 }
