@@ -39,8 +39,8 @@ namespace Cpsc370Final
             if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth()  
                                    && particlePos.y >= 0 && particlePos.y < Renderer.GetHeight())
             {
-                //Renderer.SetPixel(particlePos.x, particlePos.y, particleSymb, particleColor); // this is the line to actually use particles
-                Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
+                Renderer.SetPixel(particlePos.x, particlePos.y, particleSymb, particleColor); // this is the line to actually use particles
+                //Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
             }
         }
         
@@ -92,8 +92,8 @@ namespace Cpsc370Final
                 if (FireworkPosition.y <= Renderer.GetHeight() / 2)
                 {
                     isExploded = true;
-                    CreateParticles();
                     UpdateCenterPosition();
+                    CreateParticles();
                 }
             }
             else
@@ -102,8 +102,6 @@ namespace Cpsc370Final
                 Thread.Sleep(50);
             }
         }
-
-
         
         public void DrawFirework()
         {
