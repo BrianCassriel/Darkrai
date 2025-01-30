@@ -1,6 +1,5 @@
 
 using Moq;
-using ConsoleRenderer;
 
 namespace Cpsc370Final.Tests
 {
@@ -84,6 +83,36 @@ namespace Cpsc370Final.Tests
             int expectedHeight = Console.WindowHeight;
             int actualHeight = Renderer.GetHeight();
             Assert.Equal(expectedHeight, actualHeight);
+        }
+        
+        [Fact]
+        public void GetConsoleColor_ReturnsCorrectConsoleColor()
+        {
+            Renderer.SetPixel(0, 0, ' ', Color.None);
+            mockCanvas.Verify(c => c.Set(0, 0, ' ', ConsoleColor.White), Times.Once);
+            Renderer.SetPixel(0, 0, ' ', Color.White);
+            mockCanvas.Verify(c => c.Set(0, 0, ' ', ConsoleColor.White), Times.Exactly(2));
+            Renderer.SetPixel(0, 0, ' ', Color.Red);
+            mockCanvas.Verify(c => c.Set(0, 0, ' ', ConsoleColor.Red), Times.Once);
+            Renderer.SetPixel(0, 0, ' ', Color.Green);
+            mockCanvas.Verify(c => c.Set(0, 0, ' ', ConsoleColor.Green), Times.Once);
+            Renderer.SetPixel(0, 0, ' ', Color.Blue);
+            mockCanvas.Verify(c => c.Set(0, 0, ' ', ConsoleColor.Blue), Times.Once);
+            Renderer.SetPixel(0, 0, ' ', Color.Yellow);
+            mockCanvas.Verify(c => c.Set(0, 0, ' ', ConsoleColor.Yellow), Times.Once);
+            Renderer.SetPixel(0, 0, ' ', Color.Cyan);
+            mockCanvas.Verify(c => c.Set(0, 0, ' ', ConsoleColor.Cyan), Times.Once);
+            Renderer.SetPixel(0, 0, ' ', Color.Magenta);
+            mockCanvas.Verify(c => c.Set(0, 0, ' ', ConsoleColor.Magenta), Times.Once);
+            Renderer.SetPixel(0, 0, ' ', Color.Unknown);
+            mockCanvas.Verify(c => c.Set(0, 0, ' ', ConsoleColor.White), Times.Exactly(3));
+        }
+        
+        [Fact]
+        public void OnFrame_ShouldCallCanvasRender()
+        {
+            Renderer.OnFrame();
+            mockCanvas.Verify(c => c.Render(), Times.Once);
         }
     }
 }
