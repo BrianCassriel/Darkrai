@@ -10,6 +10,7 @@ namespace Cpsc370Final
     {
         public Position FireworkPosition { get; set; }
         public bool isExploded = false;
+        private static DateTime BirthDate = DateTime.Now;
         public char centerParticleSymbol { get; } = '*';
         public List<Particle> particles = new List<Particle>();
         public Color particleColor { get; set; }
@@ -86,6 +87,8 @@ namespace Cpsc370Final
             {
                 DrawFirework(); 
             }
+
+            IsDead();
         }
 
         
@@ -125,6 +128,17 @@ namespace Cpsc370Final
         {
             isExploded = true;
             ManageFirework();
+        }
+
+        public bool IsDead()
+        {
+            Random random = new Random();
+            int Lifespan = random.Next(500, 2000);
+            TimeSpan Age = DateTime.Now - BirthDate;
+            if (Age.Milliseconds > Lifespan)
+                return true;
+
+            return false;
         }
     }
 }

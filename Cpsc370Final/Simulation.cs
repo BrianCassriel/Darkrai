@@ -25,6 +25,8 @@ public static class Simulation
         foreach (var firework in Fireworks)
         {
             firework.OnFrame();
+            if(firework.IsDead())
+                Fireworks.Remove(firework);
         }
         TryLaunchRandomFirework();
     }
