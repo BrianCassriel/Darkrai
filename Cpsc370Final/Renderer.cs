@@ -5,14 +5,14 @@ using ConsoleRenderer;
 public static class Renderer
 {
     private static int framerate = 1000 / 24;
-    private static ConsoleCanvas canvas = new ConsoleCanvas(true, true);
+    private static IConsoleCanvas canvas = new ConsoleCanvasWrapper(new ConsoleCanvas(true, true));
     
     public static int GetFrameRate()
     {
         return framerate;
     }
     
-    public static void SetCanvas(ConsoleCanvas canvas)
+    public static void SetCanvas(IConsoleCanvas canvas)
     {
         Renderer.canvas = canvas;
     }
