@@ -46,8 +46,8 @@ namespace Cpsc370Final.Tests
 
             // Assert
             Assert.NotNull(firework);
-            Assert.InRange(firework.Position.x, 1, 2);
-            Assert.InRange(firework.Position.y, 1, 2);
+            Assert.InRange(firework.Position.x, 0, Renderer.GetWidth());
+            Assert.InRange(firework.Position.y, 0, Renderer.GetHeight());
         }
 
         [Fact]
