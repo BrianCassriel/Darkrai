@@ -24,7 +24,7 @@ namespace Cpsc370Final
 
         private void PlaceCenterParticle()
         {
-            if ((FireworkPosition.x <= Renderer.GetWidth - 1) && (FireworkPosition.y <= Renderer.GetHeight - 1))
+            if ((FireworkPosition.x <= Renderer.GetWidth() - 1) && (FireworkPosition.y <= Renderer.GetHeight() - 1))
             {
                 Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
             }
@@ -50,6 +50,7 @@ namespace Cpsc370Final
         {
             if (!isExploded)
             {
+                Launch();
                 FireworkPosition.y -= 1; // Move up by 1
             
                 if (FireworkPosition.y <= 5)
@@ -63,6 +64,18 @@ namespace Cpsc370Final
                 DrawFirework();
             }
         }
+
+        public void Launch()
+        {
+            int startY = Renderer.GetHeight() - 1;
+    
+            for (int i = startY; i >= 0; i--)
+            {
+                Renderer.SetPixel(Renderer.GetWidth() / 2, i, '|', particleColor);
+                Thread.Sleep(50);
+            }
+        }
+
 
         public void DrawFirework()
         {

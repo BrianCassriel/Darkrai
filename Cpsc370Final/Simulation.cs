@@ -20,7 +20,7 @@ public static class Simulation
         Fireworks.RemoveAt(FireworkIndex);
     }
 
-    private static void UpdateAll()
+    private static void OnFrame()
     {
         foreach (var firework in Fireworks)
         {
