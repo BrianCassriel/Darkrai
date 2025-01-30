@@ -66,11 +66,18 @@ namespace Cpsc370Final
             CreateParticles(); 
         }
 
-        public void OnFrame()
+        public void UpdateAll()
         {
             if (!isExploded)
             {
                 Launch();  
+                FireworkPosition.y -= 1; // Move up by 1
+            
+                if (FireworkPosition.y <= Renderer.GetHeight() / 2)
+                {
+                    isExploded = true;
+                    CreateParticles();
+                }
             }
             else
             {

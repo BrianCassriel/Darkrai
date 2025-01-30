@@ -1,14 +1,12 @@
-using System.Runtime.CompilerServices;
-
 namespace Cpsc370Final;
 
 public static class Simulation
 {
     private static List<Firework> Fireworks = new List<Firework>();
-    private static bool isStopped = true;
-
+    private static bool isStopped = false;
+    private static DateTime LastFireworkDate = DateTime.Now;
+    
     private static void AddFirework(Firework NewFirework)
-
     {
         Fireworks.Add(NewFirework);
     }
@@ -20,12 +18,15 @@ public static class Simulation
         Fireworks.RemoveAt(FireworkIndex);
     }
 
-    private static void OnFrame()
+    public static void OnFrame()
     {
+        if (isStopped)
+            return;
         foreach (var firework in Fireworks)
         {
-            firework.ManageFirework();
+            firework.OnFrame();
         }
+        TryLaunchRandomFirework();
     }
 
     private static Firework GetFirework(int FireworkIndex)
@@ -38,11 +39,28 @@ public static class Simulation
         return Fireworks;
     }
 
-    public static Firework GetRandomFirework()
+    public static void TryLaunchRandomFirework()
+    {
+        Random random = new Random();
+        int threshold = random.Next(500, 3000);
+        TimeSpan elapsedTime = DateTime.Now - LastFireworkDate;
+        if (elapsedTime.Milliseconds > threshold)
+        {
+            LaunchRandomFirework();
+            LastFireworkDate = DateTime.Now;
+        }
+    }
+
+    public static void LaunchRandomFirework()
+    {
+        Fireworks.Add(GetRandomFirework());
+    }
+    
+    private static Firework GetRandomFirework()
     {
         Random rnd = new Random();
-        int x = rnd.Next(1, 3);
-        int y = rnd.Next(1, 3);
+        int x = rnd.Next(1, Renderer.GetWidth() - 1);
+        int y = rnd.Next(1, Renderer.GetHeight() - 1);
 
         Array values = Enum.GetValues(typeof(Color));
         Random random = new Random();
@@ -51,21 +69,8 @@ public static class Simulation
         return new Firework(new Position(x, y), randomColor);
     }
 
-    public static void Start()
-    {
-        isStopped = false;
-        while (!isStopped)
-        {
-            // Renderer.DrawFirework(GetRandomFirework());
-            Random random = new Random();
-            int sleepTime = random.Next(500, 2000);
-            Thread.Sleep(sleepTime);
-        }
-    }
-
     public static void Stop()
     {
-        Fireworks.Clear();
         isStopped = true;
     }
 }
