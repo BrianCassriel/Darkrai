@@ -120,13 +120,13 @@ namespace Cpsc370Final
         {
             particles.Clear();
     
-            int radius = 5;
+            int radius = 4;
             double particleDensity = 12;
 
             for (int i = 0; i < particleDensity; i++)
             {
                 double angle = 2 * Math.PI * i / particleDensity;
-                int offsetX = (int)Math.Round(Math.Cos(angle) * radius);
+                int offsetX = (int)Math.Round(Math.Cos(angle) * 3 * radius);
                 int offsetY = (int)Math.Round(Math.Sin(angle) * radius);
         
                 var particle = new Particle
