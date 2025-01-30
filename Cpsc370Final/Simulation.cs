@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.JavaScript;
 
 namespace Cpsc370Final;
 
@@ -26,6 +26,7 @@ public static class Simulation
         {
             firework.OnFrame();
         }
+        TryLaunchRandomFirework();
     }
 
     private static Firework GetFirework(int FireworkIndex)
@@ -41,8 +42,8 @@ public static class Simulation
     public static Firework GetRandomFirework()
     {
         Random rnd = new Random();
-        int x = rnd.Next(1, 3);
-        int y = rnd.Next(1, 3);
+        int x = rnd.Next(1, Renderer.GetWidth() - 1);
+        int y = rnd.Next(1, Renderer.GetHeight() - 1);
 
         Array values = Enum.GetValues(typeof(Color));
         Random random = new Random();
@@ -51,16 +52,15 @@ public static class Simulation
         return new Firework(new Position(x, y), randomColor);
     }
 
-    public static void Start()
+    public static void TryLaunchRandomFirework()
     {
-        isStopped = false;
-        while (!isStopped)
+        Random random = new Random();
+        int threshold = random.Next(500, 3000);
+        TimeSpan elapsedTime = DateTime.Now - LastFireworkDate;
+        if (elapsedTime.Milliseconds > threshold)
         {
-            Random random = new Random();
-            int ElapsedTime = random.Next(1, 3);
-            if (DateTime.Now - LastFireworkDate > TimeSpan.FromSeconds(ElapsedTime))
-                Fireworks.Add(GetRandomFirework());
-                LastFireworkDate = DateTime.Now;
+            Fireworks.Add(GetRandomFirework());
+            LastFireworkDate = DateTime.Now;
         }
     }
 

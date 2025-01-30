@@ -20,7 +20,7 @@ public static class Renderer
         {
             canvas.Clear();
             canvas.CreateBorder();
-            Simulation.UpdateAll();
+            Simulation.OnFrame();
             canvas.Render();
             Thread.Sleep(framerate);
         }
