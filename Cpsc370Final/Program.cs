@@ -2,24 +2,35 @@
 
 class Program
 {
-    private static Thread inputThread;
+    private static bool isRunning = true;
+    
     static void Main(string[] args)
     {
-        Renderer.Start();
-        inputThread = new Thread(ReadInput);
-        inputThread.Start();
+        MainLoop();
+    }
+
+    static void MainLoop()
+    {
+        while (isRunning)
+        {
+            Renderer.OnFrame();
+            Thread.Sleep(Renderer.GetFrameRate());
+            ReadInput();
+        }
+        Renderer.Exit();
     }
 
     private static void ReadInput()
     {
-        while (true)
+        if (Console.KeyAvailable)
         {
             var key = Console.ReadKey(true);
-            if (key.Key == ConsoleKey.Escape)
+            if (key.Key == ConsoleKey.Q)
             {
-                inputThread.Join();
-                Simulation.Stop();
-                break;
+                isRunning = false;
+            } else if (key.Key == ConsoleKey.Spacebar)
+            {
+                Simulation.LaunchRandomFirework();
             }
         }
     }
