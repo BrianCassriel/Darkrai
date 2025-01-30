@@ -1,27 +1,90 @@
+
 using Xunit;
+using Moq;
+using ConsoleRenderer;
 
 namespace Cpsc370Final.Tests
 {
     public class RendererTests
     {
-        [Fact]
-        public void Exit_SetsShouldExitToTrue()
+        private Mock<ConsoleCanvas> mockCanvas;
+        
+        public RendererTests()
         {
-            Renderer.Exit();
-            Assert.True(Renderer.shouldExit);
+            mockCanvas = new Mock<ConsoleCanvas>();
+            Renderer.SetCanvas(mockCanvas.Object);
+        }
+        
+        [Fact]
+        public void GetFrameRate_ReturnsCorrectFrameRate()
+        {
+            int expectedFrameRate = 1000 / 24;
+            int actualFrameRate = Renderer.GetFrameRate();
+            Assert.Equal(expectedFrameRate, actualFrameRate);
         }
 
         [Fact]
-        public void GetConsoleColor_ReturnsCorrectConsoleColor()
+        public void SetPixel_SetsPixelCorrectly()
         {
-            Assert.Equal(ConsoleColor.White, Renderer.GetConsoleColor(Color.None));
-            Assert.Equal(ConsoleColor.White, Renderer.GetConsoleColor(Color.White));
-            Assert.Equal(ConsoleColor.Red, Renderer.GetConsoleColor(Color.Red));
-            Assert.Equal(ConsoleColor.Green, Renderer.GetConsoleColor(Color.Green));
-            Assert.Equal(ConsoleColor.Blue, Renderer.GetConsoleColor(Color.Blue));
-            Assert.Equal(ConsoleColor.Yellow, Renderer.GetConsoleColor(Color.Yellow));
-            Assert.Equal(ConsoleColor.Cyan, Renderer.GetConsoleColor(Color.Cyan));
-            Assert.Equal(ConsoleColor.Magenta, Renderer.GetConsoleColor(Color.Magenta));
+            Renderer.SetPixel(1, 1, 'X', Color.Red);
+            mockCanvas.Verify(c => c.Set(1, 1, 'X', ConsoleColor.Red), Times.Once);
+        }
+
+        [Fact]
+        public void ClearPixel_ClearsPixelCorrectly()
+        {
+            Renderer.ClearPixel(1, 1);
+            mockCanvas.Verify(c => c.Set(1, 1, ' ', ConsoleColor.White), Times.Once);
+        }
+
+        [Fact]
+        public void SetPixels_SetsMultiplePixelsCorrectly()
+        {
+            var pixels = new List<Pixel>
+            {
+                new Pixel(1, 1, 'X', Color.Red),
+                new Pixel(2, 2, 'Y', Color.Green)
+            };
+            Renderer.SetPixels(pixels);
+            mockCanvas.Verify(c => c.Set(1, 1, 'X', ConsoleColor.Red), Times.Once);
+            mockCanvas.Verify(c => c.Set(2, 2, 'Y', ConsoleColor.Green), Times.Once);
+        }
+
+        [Fact]
+        public void ClearPixels_ClearsMultiplePixelsCorrectly()
+        {
+            var pixels = new List<Pixel>
+            {
+                new Pixel(1, 1, 'X', Color.Red),
+                new Pixel(2, 2, 'Y', Color.Green)
+            };
+            Renderer.ClearPixels(pixels);
+            mockCanvas.Verify(c => c.Set(1, 1, ' ', ConsoleColor.White), Times.Once);
+            mockCanvas.Verify(c => c.Set(2, 2, ' ', ConsoleColor.White), Times.Once);
+        }
+
+        [Fact]
+        public void Exit_ClearsAndRendersCanvas()
+        {
+            Renderer.Exit();
+            mockCanvas.Verify(c => c.Clear(), Times.Once);
+            mockCanvas.Verify(c => c.Render(), Times.Once);
+        }
+
+        [Fact]
+        public void GetWidth_ReturnsCorrectWidth()
+        {
+            int expectedWidth = Console.WindowWidth;
+            int actualWidth = Renderer.GetWidth();
+            Assert.Equal(expectedWidth, actualWidth);
+        }
+
+        [Fact]
+        public void GetHeight_ReturnsCorrectHeight()
+        {
+            int expectedHeight = Console.WindowHeight;
+            int actualHeight = Renderer.GetHeight();
+            Assert.Equal(expectedHeight, actualHeight);
         }
     }
 }
