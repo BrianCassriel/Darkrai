@@ -6,7 +6,6 @@ class Program
     static void Main(string[] args)
     {
         Renderer.Start();
-        Simulation.Start();
         inputThread = new Thread(ReadInput);
         inputThread.Start();
     }
