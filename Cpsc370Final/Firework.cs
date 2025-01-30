@@ -40,8 +40,8 @@ namespace Cpsc370Final
             if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth()  
                                    && particlePos.y >= 0 && particlePos.y < Renderer.GetHeight())
             {
-                //Renderer.SetPixel(particlePos.x, particlePos.y, particleSymb, particleColor); // this is the line to actually use particles
-                Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
+                Renderer.SetPixel(particlePos.x, particlePos.y, particleSymb, particleColor); // this is the line to actually use particles
+                //Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
             }
         }
         
@@ -93,11 +93,14 @@ namespace Cpsc370Final
                 if (FireworkPosition.y <= Renderer.GetHeight() / 2)
                 {
                     isExploded = true;
+
                     //CreateParticles();
                     CreateParticles(12.0, 2,5, 'o');
                     CreateParticles(12.0, 3,8, 'o');
                     CreateParticles(12.0, 5,13, 'o');
+
                     UpdateCenterPosition();
+                    CreateParticles();
                 }
             }
             else
@@ -108,8 +111,6 @@ namespace Cpsc370Final
 
             IsDead();
         }
-
-
         
         public void DrawFirework()
         {
@@ -128,14 +129,15 @@ namespace Cpsc370Final
         {
             particles.Clear();
     
-            int radius = 5;
+            int radius = 4;
             double particleDensity = 12;
 
             for (int i = 0; i < particleDensity; i++)
             {
                 double angle = 2 * Math.PI * i / particleDensity;
-                int offsetX = (int)Math.Round(Math.Cos(angle) * radius);
-                int offsetY = (int)Math.Round(Math.Sin(angle) * 2.5 * radius);
+
+                int offsetX = (int)Math.Round(Math.Cos(angle) * 3 * radius);
+                int offsetY = (int)Math.Round(Math.Sin(angle) * radius);
         
                 var particle = new Particle
                 {

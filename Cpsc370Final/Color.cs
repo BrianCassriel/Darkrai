@@ -9,5 +9,6 @@ public enum Color
     Blue,
     Yellow,
     Cyan,
-    Magenta
+    Magenta,
+    Unknown
 }
