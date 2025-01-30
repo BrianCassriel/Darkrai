@@ -5,7 +5,7 @@ class Program
     private static Thread inputThread;
     static void Main(string[] args)
     {
-        Renderer.Initialize();
+        Renderer.Start();
         Simulation.Start();
         inputThread = new Thread(ReadInput);
         inputThread.Start();
@@ -20,7 +20,6 @@ class Program
             {
                 inputThread.Join();
                 Simulation.Stop();
-                Renderer.Exit();
                 break;
             }
         }

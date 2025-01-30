@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace Cpsc370Final;
 
 public static class Simulation
@@ -35,7 +37,7 @@ public static class Simulation
         return Fireworks;
     }
 
-    public static void AddRandomFirework()
+    public static Firework GetRandomFirework()
     {
         Random rnd = new Random();
         int x = rnd.Next(1, 3);
@@ -45,7 +47,7 @@ public static class Simulation
         Random random = new Random();
         Color randomColor = (Color)values.GetValue(random.Next(values.Length));
 
-        Fireworks.Add(new Firework(new Position(x, y), randomColor));
+        return new Firework(new Position(x, y), randomColor);
     }
 
     public static void Start()
@@ -53,9 +55,10 @@ public static class Simulation
         isStopped = false;
         while (!isStopped)
         {
-            Renderer.DrawFirework(GetFirework(0));
-            Fireworks.RemoveAt(0);
-            Thread.Sleep(1000);
+            // Renderer.DrawFirework(GetRandomFirework());
+            Random random = new Random();
+            int sleepTime = random.Next(500, 2000);
+            Thread.Sleep(sleepTime);
         }
     }
 
