@@ -41,8 +41,8 @@ public static class Simulation
     public static Firework GetRandomFirework()
     {
         Random rnd = new Random();
-        int x = rnd.Next(1, 3);
-        int y = rnd.Next(1, 3);
+        int x = rnd.Next(0, Renderer.GetWidth());
+        int y = rnd.Next(0, Renderer.GetHeight());
 
         Array values = Enum.GetValues(typeof(Color));
         Random random = new Random();
