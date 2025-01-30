@@ -6,7 +6,7 @@ public static class Simulation
 {
     private static List<Firework> Fireworks = new List<Firework>();
     private static bool isStopped = true;
-
+    private static DateTime LastFireworkDate = DateTime.Now;
     private static void AddFirework(Firework NewFirework)
 
     {
@@ -20,7 +20,7 @@ public static class Simulation
         Fireworks.RemoveAt(FireworkIndex);
     }
 
-    private static void UpdateAll()
+    public static void UpdateAll()
     {
         foreach (var firework in Fireworks)
         {
@@ -56,10 +56,11 @@ public static class Simulation
         isStopped = false;
         while (!isStopped)
         {
-            // Renderer.DrawFirework(GetRandomFirework());
             Random random = new Random();
-            int sleepTime = random.Next(500, 2000);
-            Thread.Sleep(sleepTime);
+            int ElapsedTime = random.Next(1, 3);
+            if (DateTime.Now - LastFireworkDate > TimeSpan.FromSeconds(ElapsedTime))
+                Fireworks.Add(GetRandomFirework());
+                LastFireworkDate = DateTime.Now;
         }
     }
 
