@@ -22,13 +22,15 @@ public static class Simulation
     {
         if (isStopped)
             return;
-        foreach (var firework in Fireworks)
+        
+        for (int i =0; i < Fireworks.Count; i++)
         {
+            Firework firework = Fireworks[i];
             firework.OnFrame();
             if(firework.IsDead())
-                Fireworks.Remove(firework);
+                Fireworks.RemoveAt(i);
         }
-        TryLaunchRandomFirework();
+            TryLaunchRandomFirework();
     }
 
     private static Firework GetFirework(int FireworkIndex)
@@ -46,7 +48,7 @@ public static class Simulation
         Random random = new Random();
         int threshold = random.Next(500, 3000);
         TimeSpan elapsedTime = DateTime.Now - LastFireworkDate;
-        if (elapsedTime.Milliseconds > threshold)
+        if (elapsedTime.TotalMilliseconds > threshold)
         {
             LaunchRandomFirework();
             LastFireworkDate = DateTime.Now;

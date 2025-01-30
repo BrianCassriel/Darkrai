@@ -94,10 +94,12 @@ namespace Cpsc370Final
                 {
                     isExploded = true;
 
-                    //CreateParticles();
-                    CreateParticles(12.0, 2,5, 'o');
-                    CreateParticles(12.0, 3,8, 'o');
-                    CreateParticles(12.0, 5,13, 'o');
+                    CreateParticles();
+                    //CreateParticles(12.0, 5,2, 'o');
+                    //Thread.Sleep(3000);
+                    //CreateParticles(12.0, 8,3, 'o');
+                    //Thread.Sleep(3000);
+                    //CreateParticles(12.0, 13,5, 'o');
 
                     UpdateCenterPosition();
                     CreateParticles();
