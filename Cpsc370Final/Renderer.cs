@@ -4,9 +4,11 @@ using ConsoleRenderer;
 
 public static class Renderer
 {
+    public static bool isInColor = true;
     private static int framerate = 1000 / 24;
     private static IConsoleCanvas canvas = new ConsoleCanvasWrapper(new ConsoleCanvas(false, true));
-    public static bool isInColor = true;
+    private static Queue<Color> textColors;
+    private static DateTime lastColorTime = DateTime.Now;
     
     public static int GetFrameRate()
     {
@@ -18,12 +20,38 @@ public static class Renderer
         Renderer.canvas = canvas;
     }
     
+    public static void Start()
+    {
+        Color[] colors = {Color.Red, Color.Yellow, Color.Green, 
+            Color.Blue, Color.Cyan, Color.Magenta};
+        textColors = new Queue<Color>(colors);
+    }
+    
     public static void OnFrame()
     {
-            canvas.Clear();
-            canvas.CreateBorder();
-            Simulation.OnFrame();
-            canvas.Render();
+        canvas.Clear();
+        canvas.CreateBorder();
+        Simulation.OnFrame();
+        WriteInfoText();
+        canvas.Render();
+    }
+    
+    private static void WriteInfoText()
+    {
+        CycleColorText(canvas.Width / 2, 0, " Procedural Fireworks! ");
+        canvas.Text(canvas.Width / 2, canvas.Height -1, " Press 'Space' for fun or 'Q' to quit. ", true);
+    }
+
+    private static void CycleColorText(int x, int y, String str)
+    {
+        Color color = textColors.Peek();
+        if (lastColorTime.AddSeconds(0.5) < DateTime.Now)
+        {
+            lastColorTime = DateTime.Now;
+            color = textColors.Dequeue();
+            textColors.Enqueue(color);
+        }
+        canvas.Text(x, y, str, true, GetConsoleColor(color));
     }
     
     public static void SetPixel(int x, int y, char symbol, Color color)
