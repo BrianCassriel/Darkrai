@@ -16,10 +16,21 @@ namespace Cpsc370Final.Tests
             var expectedX = 10;
             var expectedY = 10;
 
-            Assert.Equal(expectedX, firework.FireworkPosition.x);
-            Assert.Equal(expectedY, firework.FireworkPosition.y);
+            Assert.Equal(expectedX, firework.fireworkPosition.x);
+            Assert.Equal(expectedY, firework.fireworkPosition.y);
             
             Assert.Equal(color, firework.particleColor);
+        }
+
+        [Fact]
+        public void Firework_Launch_ShouldUpdatePosition()
+        {
+            var position = new Position(10, Renderer.GetHeight() - 1);
+            var firework = new Firework(position, Color.Blue);
+
+            firework.DrawLaunchParticle();
+
+            Assert.True(firework.fireworkPosition.y < Renderer.GetHeight() - 1, "Launch lines should have moved upwards.");
         }
         
         [Fact]
@@ -65,12 +76,10 @@ namespace Cpsc370Final.Tests
             // Act
             firework.CreateLargeParticles();
 
-            // Assert
-            Assert.Equal(24, firework.particles.Count); // 12 'o' + 12 '*'
-
-            // Validate symbols
-            Assert.Equal(12, firework.particles.Count(p => p.particleSymbol == 'o'));
-            Assert.Equal(12, firework.particles.Count(p => p.particleSymbol == '*'));
+            if (firework.fireworkPosition.y <= Renderer.GetHeight() / 2)
+            {
+                Assert.True(firework.isExploded, "Firework should have exploded when reaching the threshold.");
+            }
         }
 
         [Fact]

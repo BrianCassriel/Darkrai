@@ -23,14 +23,20 @@ public static class Simulation
         if (isStopped)
             return;
         
-        for (int i =0; i < Fireworks.Count; i++)
+        List<Firework> toRemove = new List<Firework>();
+        for (int i = 0; i < Fireworks.Count; i++)
         {
             Firework firework = Fireworks[i];
             firework.OnFrame();
-            if(firework.IsDead())
-                Fireworks.RemoveAt(i);
+            if (firework.IsDead())
+                toRemove.Add(firework);
         }
-            TryLaunchRandomFirework();
+        foreach(Firework firework in toRemove)
+        {
+            firework.Remove();
+            Fireworks.Remove(firework);   
+        }
+        TryLaunchRandomFirework();
     }
 
     public static List<Firework> GetFireworks()
