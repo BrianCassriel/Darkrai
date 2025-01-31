@@ -198,7 +198,7 @@ namespace Cpsc370Final
                         FireworkPosition.x + offsetX,
                         FireworkPosition.y + offsetY
                     ),
-                    particleSymbol = 'o'
+                    particleSymbol = '+'
                 };
 
                 particles.Add(particle);
