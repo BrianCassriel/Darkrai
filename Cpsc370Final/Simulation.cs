@@ -2,16 +2,16 @@ namespace Cpsc370Final;
 
 public static class Simulation
 {
-    private static List<Firework> Fireworks = new List<Firework>();
-    private static bool isStopped = false;
+    public static List<Firework> Fireworks = new List<Firework>();
+    public static bool isStopped = false;
     private static DateTime LastFireworkDate = DateTime.Now;
     
-    private static void AddFirework(Firework NewFirework)
+    public static void AddFirework(Firework NewFirework)
     {
         Fireworks.Add(NewFirework);
     }
 
-    private static void RemoveFirework(int FireworkIndex)
+    public static void RemoveFirework(int FireworkIndex)
     {
         if (Fireworks[FireworkIndex] == null)
             return;
@@ -33,12 +33,7 @@ public static class Simulation
             TryLaunchRandomFirework();
     }
 
-    private static Firework GetFirework(int FireworkIndex)
-    {
-        return Fireworks[FireworkIndex];
-    }
-
-    private static List<Firework> GetFireworks()
+    public static List<Firework> GetFireworks()
     {
         return Fireworks;
     }
@@ -60,26 +55,12 @@ public static class Simulation
         Fireworks.Add(GetRandomFirework());
     }
     
-    private static Firework GetRandomFirework()
+    public static Firework GetRandomFirework()
     {
         return new Firework(GetRandomPosition(), GetRandomColor());
     }
-
-    /*public static void Start()
-    {
-        isStopped = false;
-        while (!isStopped)
-        {
-            Random random = new Random();
-            int ElapsedTime = random.Next(1, 3);
-            if (DateTime.Now - LastFireworkDate > TimeSpan.FromSeconds(ElapsedTime))
-                Fireworks.Add(GetRandomFirework());
-                LastFireworkDate = DateTime.Now;
-        }
-    }
-    */
     
-    private static Position GetRandomPosition()
+    public static Position GetRandomPosition()
     {
         Random rnd = new Random();
         int x = rnd.Next(0, Renderer.GetWidth()-1);
@@ -88,7 +69,7 @@ public static class Simulation
         return new Position(x, y);
     }
 
-    private static Color GetRandomColor()
+    public static Color GetRandomColor()
     {
         Array values = Enum.GetValues(typeof(Color));
         Random random = new Random();

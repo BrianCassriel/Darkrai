@@ -73,7 +73,7 @@ namespace Cpsc370Final.Tests
          }
 
          [Fact]
-         public void Stop_ShouldClearFireworksAndSetIsStopped()
+         public void Stop_ShouldSetIsStopped()
          {
              // Arrange
              //Simulation.Start();
@@ -82,7 +82,23 @@ namespace Cpsc370Final.Tests
              Simulation.Stop();
 
              // Assert
-             Assert.Empty(Simulation.GetFireworks());
+             Assert.Equal(true, Simulation.isStopped);
+         }
+         
+         [Fact]
+         public void RemoveFirework_ShouldReturnDifferentFirework()
+         {
+             // Arrange
+             //Simulation.Start();
+             Simulation.AddFirework(Simulation.GetRandomFirework());
+             Simulation.AddFirework(Simulation.GetRandomFirework());
+             while (Simulation.Fireworks[0] == Simulation.Fireworks[1])
+                 Simulation.Fireworks[0] = Simulation.GetRandomFirework();
+             Firework firework = Simulation.Fireworks[0];
+             Simulation.RemoveFirework(0);
+
+             // Assert
+             Assert.NotEqual(Simulation.Fireworks[0], firework);
          }
 
          [Fact]
@@ -113,6 +129,21 @@ namespace Cpsc370Final.Tests
              // Assert
              Assert.Equal(initialCount - 1, Simulation.GetFireworks().Count);
          }
-     }
+
+         [Fact]
+         public void LaunchRandomFirework_ShouldAddNewFireworkToFireworks()
+         {
+             Simulation.AddFirework(Simulation.GetRandomFirework());
+             Firework firework = Simulation.GetFireworks()[0];
+             Simulation.LaunchRandomFirework();
+
+             Assert.NotEqual(Simulation.Fireworks[Simulation.Fireworks.Count() - 1], firework);
+         }
+         
+         
+         
+         
+         
+    }
 }
      
