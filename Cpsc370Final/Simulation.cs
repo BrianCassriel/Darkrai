@@ -6,12 +6,18 @@ public static class Simulation
     public static bool isStopped = false;
     private static DateTime LastFireworkDate = DateTime.Now;
     
-    public static void AddFirework(Firework NewFirework)
-    {
-        Fireworks.Add(NewFirework);
-    }
-
-    public static void RemoveFirework(int FireworkIndex)
+    public static List<Firework> GetFireworks()     
+    {                                               
+        return Fireworks;                           
+    }                                               
+    
+    
+    public static Firework GetRandomFirework()                           
+    {                                                                    
+        return new Firework(GetRandomPosition(), GetRandomColor());      
+    }                                                                    
+    
+    private static void RemoveFirework(int FireworkIndex)
     {
         if (Fireworks[FireworkIndex] == null)
             return;
@@ -39,9 +45,9 @@ public static class Simulation
         TryLaunchRandomFirework();
     }
 
-    public static List<Firework> GetFireworks()
+    private static Firework GetFirework(int FireworkIndex)
     {
-        return Fireworks;
+        return Fireworks[FireworkIndex];
     }
 
     public static void TryLaunchRandomFirework()
@@ -61,16 +67,11 @@ public static class Simulation
         Fireworks.Add(GetRandomFirework());
     }
     
-    public static Firework GetRandomFirework()
-    {
-        return new Firework(GetRandomPosition(), GetRandomColor());
-    }
-    
-    public static Position GetRandomPosition()
+    private static Position GetRandomPosition()
     {
         Random rnd = new Random();
-        int x = rnd.Next(0, Renderer.GetWidth()-1);
-        int y = rnd.Next(5, Renderer.GetHeight()-1);
+        int x = rnd.Next(0, Renderer.GetWidth());
+        int y = rnd.Next(4, Renderer.GetHeight());
         
         return new Position(x, y);
     }
