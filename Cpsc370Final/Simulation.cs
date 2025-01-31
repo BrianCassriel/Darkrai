@@ -2,8 +2,8 @@ namespace Cpsc370Final;
 
 public static class Simulation
 {
-    private static List<Firework> Fireworks = new List<Firework>();
-    private static bool isStopped = false;
+    public static List<Firework> Fireworks = new List<Firework>();
+    public static bool isStopped = false;
     private static DateTime LastFireworkDate = DateTime.Now;
     
     public static List<Firework> GetFireworks()     
@@ -11,10 +11,6 @@ public static class Simulation
         return Fireworks;                           
     }                                               
     
-    public static void AddFirework(Firework NewFirework)
-    {
-        Fireworks.Add(NewFirework);
-    }
     
     public static Firework GetRandomFirework()                           
     {                                                                    
@@ -80,7 +76,7 @@ public static class Simulation
         return new Position(x, y);
     }
 
-    private static Color GetRandomColor()
+    public static Color GetRandomColor()
     {
         Array values = Enum.GetValues(typeof(Color));
         Random random = new Random();

@@ -97,7 +97,6 @@ public class Firework
         for (int i = 0; i < particleDensity; i++)
         {
             double angle = 2 * Math.PI * i / particleDensity;
-
             int offsetX = (int)Math.Round(Math.Cos(angle) * 1.5 * radius);
             int offsetY = (int)Math.Round(Math.Sin(angle) * 0.5 *radius);
     
