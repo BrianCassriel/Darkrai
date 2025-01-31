@@ -24,7 +24,6 @@ public static class Renderer
             canvas.CreateBorder();
             Simulation.OnFrame();
             canvas.Render();
-            Thread.Sleep(framerate);
     }
     
     public static void SetPixel(int x, int y, char symbol, Color color)

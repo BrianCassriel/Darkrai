@@ -1,5 +1,5 @@
 using System.Drawing;
-
+using System.Runtime.CompilerServices;
 using System.Xml.Schema;
 
 namespace Cpsc370Final
@@ -8,30 +8,46 @@ namespace Cpsc370Final
 
     public class Firework
     {
-        public Position FireworkPosition { get; set; }
+        public Position fireworkPosition { get; set; }
         public bool isExploded = false;
         private static DateTime BirthDate = DateTime.Now;
         public char centerParticleSymbol { get; } = '*';
         public List<Particle> particles = new List<Particle>();
         public Color particleColor { get; set; }
         private Random random = new Random();
-
-        public Firework()
-        {
-            FireworkPosition = new Position(10,10);
-        }
+        private Position launchParticlePosition;
 
         public Firework(Position position, Color color)
         {
-            FireworkPosition = position;
+            fireworkPosition = position;
             particleColor = color;
+            launchParticlePosition = new Position(fireworkPosition.x, Renderer.GetHeight() - 1);
+        }
+        
+        public bool IsDead()
+        {
+            Random random = new Random();
+            int Lifespan = random.Next(3000, 8000);
+            TimeSpan Age = DateTime.Now - BirthDate;
+            if (Age.Milliseconds > Lifespan)
+                return true;
+            return false;
+        }
+
+        public void Remove()
+        {
+            foreach (var particle in particles)
+            {
+                particle.Remove();
+            }
+            particles.Clear();
         }
 
         private void PlaceCenterParticle()
         {
-            if ((FireworkPosition.x <= Renderer.GetWidth() - 1) && (FireworkPosition.y <= Renderer.GetHeight() - 1))
+            if ((fireworkPosition.x <= Renderer.GetWidth() - 1) && (fireworkPosition.y <= Renderer.GetHeight() - 1))
             {
-                Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
+                Renderer.SetPixel(fireworkPosition.x, fireworkPosition.y, centerParticleSymbol, particleColor);
             }
         }
         
@@ -40,89 +56,47 @@ namespace Cpsc370Final
             if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth()
                                    && particlePos.y >= 0 && particlePos.y < Renderer.GetHeight())
             {
-                Renderer.SetPixel(particlePos.x, particlePos.y, particleSymbol, particleColor); // this is the line to actually use particles
-                //Renderer.SetPixel(FireworkPosition.x, FireworkPosition.y, centerParticleSymbol, particleColor);
+                Renderer.SetPixel(particlePos.x, particlePos.y, particleSymbol, particleColor);
             }
-        }
-        
-        public void ManageFirework()
-        {
-            if (isExploded)
-            {
-                PlaceCenterParticle();
-            }
-        }
-
-        public void Launch()
-        {
-            int startY = Renderer.GetHeight() - 1;
-            int fireworkY = startY;
-            int fireworkX = FireworkPosition.x;
-
-            while (fireworkY > 5) 
-            {
-                Renderer.SetPixel(fireworkX, fireworkY, '|', particleColor);  
-                Thread.Sleep(80);  
-
-                Renderer.SetPixel(fireworkX, fireworkY + 1, ' ', particleColor);
-                fireworkY--;  
-            }
-
-            FireworkPosition.y = fireworkY; 
-            isExploded = true;
-            CreateParticles();
-        }
- 
-
-        private void UpdateCenterPosition()
-        {
-            int minY = Renderer.GetHeight() / 2;
-            int maxY = 5; // Bug: If the height is less than 10, maxY will be less than minY
-        
-            FireworkPosition.x = random.Next(0, Renderer.GetWidth());
-            FireworkPosition.y = random.Next(minY, maxY);
         }
 
         public void OnFrame()
         {
             if (!isExploded)
             {
-                Launch();
-                FireworkPosition.y -= 1;
-
-                if (FireworkPosition.y <= Renderer.GetHeight() / 2)
-                {
+                DrawLaunchParticle();
+                if (launchParticlePosition.x == fireworkPosition.x && launchParticlePosition.y == fireworkPosition.y)
                     isExploded = true;
-                    Random rnd = new Random();
-                    int size = rnd.Next(1, 4);
-
-                    switch (size)
-                    {
-                        case 1:
-                            CreateParticles();
-                            break;
-                        case 2:
-                            CreateMediumExplosion();
-                            break;
-                        default:
-                            CreateSmallExplosion();
-                            break;
-                    }
-                }
             }
             else
             {
+                Random rnd = new Random();
+                switch (rnd.Next(1, 4))
+                {
+                    case 1:
+                        CreateSmallParticles();
+                        break;
+                    case 2:
+                        CreateMediumParticles();
+                        break;
+                    default:
+                        CreateLargeParticles();
+                        break;
+                }
                 DrawFirework();
-                Thread.Sleep(50);
             }
-
-            IsDead();
+        }
+        
+        public void DrawLaunchParticle()
+        {
+            Renderer.SetPixel(launchParticlePosition.x, launchParticlePosition.y, '|', particleColor);  
+            Renderer.SetPixel(launchParticlePosition.x, launchParticlePosition.y + 1, ' ', particleColor);
+            launchParticlePosition.y--;
         }
         
         public void DrawFirework()
         {
-            PlaceParticle(FireworkPosition, centerParticleSymbol);
-
+            PlaceParticle(fireworkPosition, centerParticleSymbol);
             if (isExploded)
             {
                 foreach (var particle in particles)
@@ -149,8 +123,8 @@ namespace Cpsc370Final
                 var particle = new Particle
                 {
                     particlePosition = new Position(
-                        FireworkPosition.x + offsetX,
-                        FireworkPosition.y + offsetY
+                        fireworkPosition.x + offsetX,
+                        fireworkPosition.y + offsetY
                     ),
                     particleSymbol = 'o'
                 };
@@ -168,8 +142,8 @@ namespace Cpsc370Final
                 var particle = new Particle
                 {
                     particlePosition = new Position(
-                        FireworkPosition.x + offsetX,
-                        FireworkPosition.y + offsetY
+                        fireworkPosition.x + offsetX,
+                        fireworkPosition.y + offsetY
                     ),
                     particleSymbol = '*'
                 };
@@ -195,8 +169,8 @@ namespace Cpsc370Final
                 var particle = new Particle
                 {
                     particlePosition = new Position(
-                        FireworkPosition.x + offsetX,
-                        FireworkPosition.y + offsetY
+                        fireworkPosition.x + offsetX,
+                        fireworkPosition.y + offsetY
                     ),
                     particleSymbol = '+'
                 };
@@ -222,106 +196,14 @@ namespace Cpsc370Final
                 var particle = new Particle
                 {
                     particlePosition = new Position(
-                        FireworkPosition.x + offsetX,
-                        FireworkPosition.y + offsetY
+                        fireworkPosition.x + offsetX,
+                        fireworkPosition.y + offsetY
                     ),
                     particleSymbol = '*'
                 };
 
                 particles.Add(particle);
             }
-        }
-        
-        
-        private void CreateParticles()
-        {
-            particles.Clear();
-    
-            int radius = 4;
-            double particleDensity = 12;
-
-            for (int i = 0; i < particleDensity; i++)
-            {
-                double angle = 2 * Math.PI * i / particleDensity;
-
-                int offsetX = (int)Math.Round(Math.Cos(angle) * 3* radius);
-                int offsetY = (int)Math.Round(Math.Sin(angle) * radius);
-        
-                var particle = new Particle
-                {
-                    particlePosition = new Position(
-                        FireworkPosition.x + offsetX,
-                        FireworkPosition.y + offsetY
-                    ),
-                    particleSymbol = 'o'
-                };
-
-                particles.Add(particle);
-            }
-        }
-
-        public void CreateSmallExplosion()
-        {
-            CreateSmallParticles();
-            UpdateCenterPosition();
-            CreateSmallParticles();
-        }
-        
-        public void CreateMediumExplosion()
-        {
-            CreateMediumParticles();
-            UpdateCenterPosition();
-            CreateMediumParticles();
-        }
-        
-        public void CreateLargeExplosion()
-        {
-            CreateLargeParticles();
-            UpdateCenterPosition();
-            CreateLargeParticles();
-        }
-        
-
-        
-        private void CreateParticles(double density, int radiusX, int radiusY, char centerParticleSymbol)
-        {
-            double particleDensity = density;
-
-            for (int i = 0; i < particleDensity; i++)
-            {
-                double angle = 2 * Math.PI * i / particleDensity;
-                int offsetX = (int)Math.Round(Math.Cos(angle) * radiusX);
-                int offsetY = (int)Math.Round(Math.Sin(angle) * radiusY);
-        
-                var particle = new Particle
-                {
-                    particlePosition = new Position(
-                        FireworkPosition.x + offsetX,
-                        FireworkPosition.y + offsetY
-                    ),
-                    particleSymbol = centerParticleSymbol
-                };
-                
-                particles.Add(particle);
-            }
-        }
-
-
-        public void Explode()
-        {
-            isExploded = true;
-            ManageFirework();
-        }
-
-        public bool IsDead()
-        {
-            Random random = new Random();
-            int Lifespan = random.Next(500, 2000);
-            TimeSpan Age = DateTime.Now - BirthDate;
-            if (Age.Milliseconds > Lifespan)
-                return true;
-
-            return false;
         }
     }
 }
