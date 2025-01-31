@@ -19,7 +19,7 @@ public class Firework
         particleColor = color;
         launchParticlePosition = new Position(fireworkPosition.x, Renderer.GetHeight() - 1);
         Random random = new Random();
-        framesToLive = 30;
+        framesToLive = random.Next(20, 35);
     }
     
     public bool IsDead()
@@ -43,16 +43,11 @@ public class Firework
     
     private void PlaceParticle(Position particlePos, char particleSymbol)
     {
-        if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth()
-                               && particlePos.y >= 0 && particlePos.y < Renderer.GetHeight())
-        {
-            Renderer.SetPixel(particlePos.x, particlePos.y, particleSymbol, particleColor);
-        }
+        Renderer.SetPixel(particlePos.x, particlePos.y, particleSymbol, particleColor);
     }
 
     public void OnFrame()
     {
-        framesToLive--;
         if (!isExploded)
         {
             DrawLaunchParticle();
@@ -61,6 +56,7 @@ public class Firework
         }
         else
         {
+            framesToLive--;
             particles.Clear();
             Random rnd = new Random();
             switch (rnd.Next(1, 4))
