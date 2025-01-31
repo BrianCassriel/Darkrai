@@ -6,11 +6,21 @@ public static class Simulation
     private static bool isStopped = false;
     private static DateTime LastFireworkDate = DateTime.Now;
     
-    private static void AddFirework(Firework NewFirework)
+    public static List<Firework> GetFireworks()     
+    {                                               
+        return Fireworks;                           
+    }                                               
+    
+    public static void AddFirework(Firework NewFirework)
     {
         Fireworks.Add(NewFirework);
     }
-
+    
+    public static Firework GetRandomFirework()                           
+    {                                                                    
+        return new Firework(GetRandomPosition(), GetRandomColor());      
+    }                                                                    
+    
     private static void RemoveFirework(int FireworkIndex)
     {
         if (Fireworks[FireworkIndex] == null)
@@ -44,11 +54,6 @@ public static class Simulation
         return Fireworks[FireworkIndex];
     }
 
-    private static List<Firework> GetFireworks()
-    {
-        return Fireworks;
-    }
-
     public static void TryLaunchRandomFirework()
     {
         Random random = new Random();
@@ -66,30 +71,11 @@ public static class Simulation
         Fireworks.Add(GetRandomFirework());
     }
     
-    private static Firework GetRandomFirework()
-    {
-        return new Firework(GetRandomPosition(), GetRandomColor());
-    }
-
-    /*public static void Start()
-    {
-        isStopped = false;
-        while (!isStopped)
-        {
-            Random random = new Random();
-            int ElapsedTime = random.Next(1, 3);
-            if (DateTime.Now - LastFireworkDate > TimeSpan.FromSeconds(ElapsedTime))
-                Fireworks.Add(GetRandomFirework());
-                LastFireworkDate = DateTime.Now;
-        }
-    }
-    */
-    
     private static Position GetRandomPosition()
     {
         Random rnd = new Random();
-        int x = rnd.Next(0, Renderer.GetWidth()-1);
-        int y = rnd.Next(5, Renderer.GetHeight()-1);
+        int x = rnd.Next(0, Renderer.GetWidth());
+        int y = rnd.Next(4, Renderer.GetHeight());
         
         return new Position(x, y);
     }

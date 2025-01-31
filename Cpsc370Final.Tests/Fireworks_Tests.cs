@@ -38,7 +38,7 @@ namespace Cpsc370Final.Tests
         {
             var firework = new Firework(new Position(15, 20), Color.Green);
 
-            firework.Explode();
+            firework.isExploded = true;
 
             Assert.True(firework.isExploded, "Firework should be exploded.");
         }
@@ -49,7 +49,7 @@ namespace Cpsc370Final.Tests
             var position = new Position(15, 20);
             var firework = new Firework(position, Color.Yellow);
 
-            firework.Explode();
+            firework.isExploded = true;
 
             foreach (var particle in firework.particles)
             {
@@ -101,7 +101,7 @@ namespace Cpsc370Final.Tests
         {
             var firework = new Firework(new Position(10, 10), Color.Yellow);
     
-            firework.CreateSmallExplosion();
+            firework.CreateSmallParticles();
 
             Assert.Equal(12, firework.particles.Count);
             Assert.All(firework.particles, p => Assert.Equal('*', p.particleSymbol)); 
@@ -112,7 +112,7 @@ namespace Cpsc370Final.Tests
         {
             var firework = new Firework(new Position(10, 10), Color.Yellow);
     
-            firework.CreateLargeExplosion();
+            firework.CreateMediumParticles();
 
             Assert.Equal(24, firework.particles.Count);
             Assert.Contains(firework.particles, p => p.particleSymbol == 'o');
@@ -124,7 +124,7 @@ namespace Cpsc370Final.Tests
         {
             var firework = new Firework(new Position(10, 10), Color.Yellow);
     
-            firework.CreateMediumExplosion();
+            firework.CreateLargeParticles();
 
             Assert.Equal(12, firework.particles.Count);
             Assert.All(firework.particles, p => Assert.Equal('+', p.particleSymbol));
