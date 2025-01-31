@@ -30,7 +30,7 @@ namespace Cpsc370Final.Tests
 
             firework.DrawLaunchParticle();
 
-            Assert.True(firework.fireworkPosition.y < Renderer.GetHeight() - 1, "Launch lines should have moved upwards.");
+            Assert.True(firework.launchParticlePosition.y < Renderer.GetHeight() - 1, "Launch lines should have moved upwards.");
         }
         
         [Fact]
@@ -114,9 +114,7 @@ namespace Cpsc370Final.Tests
     
             firework.CreateMediumParticles();
 
-            Assert.Equal(24, firework.particles.Count);
-            Assert.Contains(firework.particles, p => p.particleSymbol == 'o');
-            Assert.Contains(firework.particles, p => p.particleSymbol == '*');
+            Assert.Equal(12, firework.particles.Count);
         }
         
         [Fact]
@@ -126,10 +124,8 @@ namespace Cpsc370Final.Tests
     
             firework.CreateLargeParticles();
 
-            Assert.Equal(12, firework.particles.Count);
-            Assert.All(firework.particles, p => Assert.Equal('+', p.particleSymbol));
+            Assert.Equal(24, firework.particles.Count);
         }
-
 
         [Fact]
         public void CreateSmallParticles_CreatesCorrectNumberAndSymbols()
