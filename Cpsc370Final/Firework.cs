@@ -76,8 +76,8 @@ namespace Cpsc370Final
 
         private void UpdateCenterPosition()
         {
-            int maxY = Renderer.GetHeight() / 2;
-            int minY = 5; // Bug: If the height is less than 10, maxY will be less than minY
+            int minY = Renderer.GetHeight() / 2;
+            int maxY = 5; // Bug: If the height is less than 10, maxY will be less than minY
         
             FireworkPosition.x = random.Next(0, Renderer.GetWidth());
             FireworkPosition.y = random.Next(minY, maxY);
@@ -132,7 +132,7 @@ namespace Cpsc370Final
             }
         }
 
-        private void CreateLargeParticles()
+        public void CreateLargeParticles()
         {
             particles.Clear();
     
@@ -178,7 +178,7 @@ namespace Cpsc370Final
             }
         }
         
-        private void CreateMediumParticles()
+        public void CreateMediumParticles()
         {
             particles.Clear();
     
@@ -198,14 +198,14 @@ namespace Cpsc370Final
                         FireworkPosition.x + offsetX,
                         FireworkPosition.y + offsetY
                     ),
-                    particleSymbol = 'o'
+                    particleSymbol = '+'
                 };
 
                 particles.Add(particle);
             }
         }
         
-        private void CreateSmallParticles()
+        public void CreateSmallParticles()
         {
             particles.Clear();
     
@@ -260,21 +260,21 @@ namespace Cpsc370Final
             }
         }
 
-        private void CreateSmallExplosion()
+        public void CreateSmallExplosion()
         {
             CreateSmallParticles();
             UpdateCenterPosition();
             CreateSmallParticles();
         }
         
-        private void CreateMediumExplosion()
+        public void CreateMediumExplosion()
         {
             CreateMediumParticles();
             UpdateCenterPosition();
             CreateMediumParticles();
         }
         
-        private void CreateLargeExplosion()
+        public void CreateLargeExplosion()
         {
             CreateLargeParticles();
             UpdateCenterPosition();
