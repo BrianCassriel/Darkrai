@@ -16,6 +16,17 @@ public class ConsoleCanvasWrapper : IConsoleCanvas
         consoleCanvas.Set(x, y, symbol, color);
     }
 
+    public virtual void Text(int x, int y, string text, bool centered = false, ConsoleColor? foreground = null,
+        ConsoleColor? background = null)
+    {
+        consoleCanvas.Text(x, y, text, centered, foreground, background);
+    }
+
+    public virtual ConsoleRenderer.Pixel Get(int x, int y, bool backBuffer = true)
+    {
+        return consoleCanvas.Get(x, y, backBuffer);
+    }
+
     public virtual void Clear()
     {
         consoleCanvas.Clear();
@@ -31,6 +42,11 @@ public class ConsoleCanvasWrapper : IConsoleCanvas
         consoleCanvas.CreateBorder();
     }
 
+    public virtual void Resize(int width, int height)
+    {
+        consoleCanvas.Resize(width, height);
+    }
+    
     public int Width => consoleCanvas.Width;
     public int Height => consoleCanvas.Height;
 }

@@ -5,7 +5,8 @@ using ConsoleRenderer;
 public static class Renderer
 {
     private static int framerate = 1000 / 24;
-    private static IConsoleCanvas canvas = new ConsoleCanvasWrapper(new ConsoleCanvas(true, true));
+    private static IConsoleCanvas canvas = new ConsoleCanvasWrapper(new ConsoleCanvas(false, true));
+    public static bool isInColor = true;
     
     public static int GetFrameRate()
     {
@@ -28,7 +29,10 @@ public static class Renderer
     
     public static void SetPixel(int x, int y, char symbol, Color color)
     {
-        canvas.Set(x, y, symbol, GetConsoleColor(color));
+        if (!IsOnCanvas(x, y))
+            return;
+        Color symbolColor = isInColor ? color : Color.None;
+        canvas.Set(x, y, symbol, GetConsoleColor(symbolColor));
     }
     
     public static void ClearPixel(int x, int y)
@@ -67,6 +71,11 @@ public static class Renderer
     public static int GetHeight()
     {
         return canvas.Height;
+    }
+
+    private static bool IsOnCanvas(int x, int y)
+    {
+        return x > 0 && y > 0 && x < canvas.Width - 1 && y < canvas.Height - 1;
     }
     
     private static ConsoleColor GetConsoleColor(Color color)
