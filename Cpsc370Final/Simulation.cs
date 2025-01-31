@@ -11,13 +11,17 @@ public static class Simulation
         return Fireworks;                           
     }                                               
     
-    
     public static Firework GetRandomFirework()                           
     {                                                                    
         return new Firework(GetRandomPosition(), GetRandomColor());      
-    }                                                                    
+    }
+
+    public static void AddFirework(Firework firework)
+    {
+        Fireworks.Add(firework);
+    }
     
-    private static void RemoveFirework(int FireworkIndex)
+    public static void RemoveFirework(int FireworkIndex)
     {
         if (Fireworks[FireworkIndex] == null)
             return;

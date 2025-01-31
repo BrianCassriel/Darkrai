@@ -7,10 +7,10 @@ public class Firework
     public Position fireworkPosition { get; set; }
     public bool isExploded = false;
     public char centerParticleSymbol { get; } = '*';
+    public Position launchParticlePosition;
     public List<Particle> particles = new List<Particle>();
     public Color particleColor { get; set; }
     private Random random = new Random();
-    private Position launchParticlePosition;
     private int framesToLive;
 
     public Firework(Position position, Color color)
