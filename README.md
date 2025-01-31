@@ -10,7 +10,7 @@ It procedurally generates a fireworks display in the console.
 The fireworks are launched at random intervals and explode into particles that sparkle in a circular pattern. 
 The user can also launch more fireworks by pressing the spacebar.
 
-![Procedural Fireworks Demo](../Darkrai/demo.gif)
+![Procedural Fireworks Demo](./demo.gif)
 
 The purpose of the project was to practice Scrum and Test-Driven Development by creating some sort of console app.
 We decided to create something fun and visually appealing.
