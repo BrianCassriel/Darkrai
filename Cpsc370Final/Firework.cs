@@ -99,7 +99,7 @@ namespace Cpsc370Final
                     switch (size)
                     {
                         case 1:
-                            CreateParticles();
+                            CreateLargeExplosion();
                             break;
                         case 2:
                             CreateMediumExplosion();
