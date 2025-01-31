@@ -37,7 +37,7 @@ namespace Cpsc370Final
         
         private void PlaceParticle(Position particlePos, char particleSymbol)
         {
-            if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth()  
+            if (particlePos.x >= 0 && particlePos.x < Renderer.GetWidth()
                                    && particlePos.y >= 0 && particlePos.y < Renderer.GetHeight())
             {
                 Renderer.SetPixel(particlePos.x, particlePos.y, particleSymbol, particleColor); // this is the line to actually use particles
@@ -77,7 +77,7 @@ namespace Cpsc370Final
         private void UpdateCenterPosition()
         {
             int maxY = Renderer.GetHeight() / 2;
-            int minY = 5; 
+            int minY = 5; // Bug: If the height is less than 10, maxY will be less than minY
         
             FireworkPosition.x = random.Next(0, Renderer.GetWidth());
             FireworkPosition.y = random.Next(minY, maxY);
