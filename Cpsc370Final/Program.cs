@@ -20,6 +20,7 @@ class Program
 
     static void StartMainLoop()
     {
+        Renderer.Start();
         while (isRunning)
         {
             Renderer.OnFrame();
