@@ -26,6 +26,11 @@ public class Particle
         particleSymbol = symbol;
     }
 
+    public void Remove()
+    {
+        Renderer.ClearPixel(particlePosition.x, particlePosition.y);
+    }
+
     public void ManageParticle()
     {
         if ((lifetime > 0) && (!isFinished))
