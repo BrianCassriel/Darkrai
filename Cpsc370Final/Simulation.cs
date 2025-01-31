@@ -29,13 +29,11 @@ public static class Simulation
             Firework firework = Fireworks[i];
             firework.OnFrame();
             if (firework.IsDead())
-            {
-                firework.Remove();
                 toRemove.Add(firework);
-            }
         }
         foreach(Firework firework in toRemove)
         {
+            firework.Remove();
             Fireworks.Remove(firework);   
         }
         TryLaunchRandomFirework();
