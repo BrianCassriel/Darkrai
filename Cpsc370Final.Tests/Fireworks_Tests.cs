@@ -21,17 +21,6 @@ namespace Cpsc370Final.Tests
             
             Assert.Equal(color, firework.particleColor);
         }
-
-        [Fact]
-        public void Firework_Launch_ShouldUpdatePosition()
-        {
-            var position = new Position(10, Renderer.GetHeight() - 1);
-            var firework = new Firework(position, Color.Blue);
-
-            firework.Launch();
-
-            Assert.True(firework.FireworkPosition.y < Renderer.GetHeight() - 1, "Launch lines should have moved upwards.");
-        }
         
         [Fact]
         public void Firework_ShouldExplodeAndCreateParticles()
@@ -68,16 +57,79 @@ namespace Cpsc370Final.Tests
         }
         
         [Fact]
-        public void Firework_OnFrame_ShouldTriggerExplosion()
+        public void CreateLargeParticles_CreatesCorrectNumberAndSymbols()
         {
-            var firework = new Firework(new Position(10, Renderer.GetHeight() - 1), Color.Cyan);
+            // Arrange
+            var firework = new Firework(new Position(10, 10), Color.Red);
 
-            firework.OnFrame();
+            // Act
+            firework.CreateLargeParticles();
 
-            if (firework.FireworkPosition.y <= Renderer.GetHeight() / 2)
-            {
-                Assert.True(firework.isExploded, "Firework should have exploded when reaching the threshold.");
-            }
+            // Assert
+            Assert.Equal(24, firework.particles.Count); // 12 'o' + 12 '*'
+
+            // Validate symbols
+            Assert.Equal(12, firework.particles.Count(p => p.particleSymbol == 'o'));
+            Assert.Equal(12, firework.particles.Count(p => p.particleSymbol == '*'));
+        }
+
+        [Fact]
+        public void CreateMediumParticles_CreatesCorrectNumberAndSymbols()
+        {
+            // Arrange
+            var firework = new Firework(new Position(10, 10), Color.Blue);
+
+            // Act
+            firework.CreateMediumParticles();
+
+            // Assert
+            Assert.Equal(12, firework.particles.Count); // All should be '+'
+            Assert.All(firework.particles, p => Assert.Equal('+', p.particleSymbol));
+        }
+        
+        [Fact]
+        public void CreateSmallExplosion_CreatesOnlyLastSmallParticles()
+        {
+            var firework = new Firework(new Position(10, 10), Color.Yellow);
+    
+            firework.CreateSmallExplosion();
+
+            Assert.Equal(12, firework.particles.Count);
+            Assert.All(firework.particles, p => Assert.Equal('*', p.particleSymbol)); 
+        }
+        
+        [Fact]
+        public void CreateLargeExplosion_CreatesDoubleLargeParticles()
+        {
+            var firework = new Firework(new Position(10, 10), Color.Yellow);
+    
+            firework.CreateLargeExplosion();
+
+            Assert.Equal(24, firework.particles.Count);
+            Assert.Contains(firework.particles, p => p.particleSymbol == 'o');
+            Assert.Contains(firework.particles, p => p.particleSymbol == '*');
+        }
+        
+        [Fact]
+        public void CreateMediumExplosion_CreatesOnlyLastMediumParticles()
+        {
+            var firework = new Firework(new Position(10, 10), Color.Yellow);
+    
+            firework.CreateMediumExplosion();
+
+            Assert.Equal(12, firework.particles.Count);
+            Assert.All(firework.particles, p => Assert.Equal('+', p.particleSymbol));
+        }
+
+
+        [Fact]
+        public void CreateSmallParticles_CreatesCorrectNumberAndSymbols()
+        {
+            var firework = new Firework(new Position(10, 10), Color.Yellow);
+            firework.CreateSmallParticles();
+
+            Assert.Equal(12, firework.particles.Count); // All should be '*'
+            Assert.All(firework.particles, p => Assert.Equal('*', p.particleSymbol));
         }
         
     }

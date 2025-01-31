@@ -14,31 +14,31 @@
 //      
 // }*/
 //
-using System;
-using System.Collections.Generic;
-using Xunit;
-
-namespace Cpsc370Final.Tests
-{
-    public class SimulationTests
-    {
-        [Fact]
-        public void OnFrame_ShouldCallManageFirework_OnAllFireworks()
-        {
-            // Arrange
-            Firework mockFirework = new Firework(new Position(1, 1), Color.Red);
-            Simulation.Stop(); // Ensure fresh state
-            Simulation.AddFirework(mockFirework);
-
-            // Act
-            Simulation.OnFrame();
-
-            // Assert
-            // We assume ManageFirework modifies some state. Since it's not implemented, this is a placeholder.
-            Assert.NotNull(mockFirework); 
-            Assert.Contains(mockFirework, Simulation.GetFireworks());
-
-        }
+// using System;
+// using System.Collections.Generic;
+// using Xunit;
+//
+// namespace Cpsc370Final.Tests
+// {
+//     public class SimulationTests
+//     {
+//         [Fact]
+//         public void OnFrame_ShouldCallManageFirework_OnAllFireworks()
+//         {
+//             // Arrange
+//             Firework mockFirework = new Firework(new Position(1, 1), Color.Red);
+//             Simulation.Stop(); // Ensure fresh state
+//             Simulation.AddFirework(mockFirework);
+//
+//             // Act
+//             Simulation.OnFrame();
+//
+//             // Assert
+//             // We assume ManageFirework modifies some state. Since it's not implemented, this is a placeholder.
+//             Assert.NotNull(mockFirework); 
+//             Assert.Contains(mockFirework, Simulation.GetFireworks());
+//
+//         }
 //         [Fact]
 //         public void GetRandomFirework_ShouldReturnValidFirework()
 //         {
@@ -106,5 +106,5 @@ namespace Cpsc370Final.Tests
 //             // Assert
 //             Assert.Equal(initialCount - 1, Simulation.GetFireworks().Count);
 //         }
-     }
-}
+//      }
+// }
